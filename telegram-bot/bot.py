@@ -61,6 +61,8 @@ T = {
  "cop31": "🌍 COP31 Yeşil Alan", "startup": "🚀 Startup Kuralları", "faq": "❓ SSS",
  "contact": "📞 İletişim", "lang": "🌐 Dil", "back": "⬅️ Geri",
  "skills": "🌟 20 Yetenek", "skills_title": "🌟 20 yeteneğim — birine dokunun:",
+ "startups": "🚀 20 Startup", "su_title": "🚀 20 Startup — kategori seçin:",
+ "su_climate": "🌱 İklim (10)", "su_social": "💛 Sosyal (10)",
  "site": "🏛️ Vakıf Sitesi", "site_title": "🏛️ Vakıf sitesi bölümleri:",
  "wprojects": "🏠 Projeler", "wnews": "📰 Haberler", "wmag": "📖 Dergi",
  "wgift": "🎁 Hediye", "wpay": "📲 SMS & Banka", "wvol": "🙋 Gönüllü",
@@ -86,6 +88,8 @@ T = {
  "cop31": "🌍 COP31 Green Zone", "startup": "🚀 Startup Rules", "faq": "❓ FAQ",
  "contact": "📞 Contact", "lang": "🌐 Lang", "back": "⬅️ Back",
  "skills": "🌟 20 Skills", "skills_title": "🌟 My 20 skills — tap one:",
+ "startups": "🚀 20 Startups", "su_title": "🚀 20 Startups — pick a category:",
+ "su_climate": "🌱 Climate (10)", "su_social": "💛 Social (10)",
  "site": "🏛️ Foundation Site", "site_title": "🏛️ Foundation site sections:",
  "wprojects": "🏠 Projects", "wnews": "📰 News", "wmag": "📖 Magazine",
  "wgift": "🎁 Gift", "wpay": "📲 SMS & Bank", "wvol": "🙋 Volunteer",
@@ -111,6 +115,8 @@ T = {
  "cop31": "🌍 گرین‌زون COP31", "startup": "🚀 قوانین استارتاپ", "faq": "❓ سؤالات",
  "contact": "📞 تماس", "lang": "🌐 زبان", "back": "⬅️ بازگشت",
  "skills": "🌟 ۲۰ مهارت", "skills_title": "🌟 ۲۰ مهارت من — یکی را بزنید:",
+ "startups": "🚀 ۲۰ استارتاپ", "su_title": "🚀 ۲۰ استارتاپ — دسته را انتخاب کنید:",
+ "su_climate": "🌱 اقلیمی (۱۰)", "su_social": "💛 اجتماعی (۱۰)",
  "site": "🏛️ سایت موسسه", "site_title": "🏛️ بخش‌های سایت موسسه:",
  "wprojects": "🏠 پروژه‌ها", "wnews": "📰 اخبار", "wmag": "📖 مجله",
  "wgift": "🎁 هدیه", "wpay": "📲 پیامک و بانک", "wvol": "🙋 داوطلب",
@@ -133,7 +139,41 @@ T = {
 }
 user_lang = {}
 user_page = {}
+user_su = {}
 PER_PAGE = 7
+LI = {"tr": 0, "en": 1, "fa": 2}
+SU_STAGE = {
+ "tr": ["Fikir", "Prototip", "Ön Tohum", "Tohum"],
+ "en": ["Idea", "Prototype", "Pre-seed", "Seed"],
+ "fa": ["ایده", "نمونه اولیه", "پیش‌بذری", "بذری"],
+}
+SU_BADGE = {
+ "tr": ("✅ Startup Zone adayı", "💛 Vakıf modeli"),
+ "en": ("✅ Startup Zone fit", "💛 Foundation model"),
+ "fa": ("✅ مناسب Startup Zone", "💛 مدل خیریه"),
+}
+STARTUPS = [
+ {"e": "☀️", "n": "SolarSack", "c": "Türkiye", "k": "c", "st": 1, "sec": ("Enerji", "Energy", "انرژی"), "d": ("Öğrenciler için güneş panelli sırt çantası: gündüz şarj olur, gece ışık ve telefon şarjı verir.", "Solar-panel backpack for students: charges by day, gives light + phone charge at night.", "کوله‌پشتی خورشیدی برای دانش‌آموزان: روز شارژ می‌شود، شب نور و شارژ موبایل می‌دهد.")},
+ {"e": "💧", "n": "DropLoop", "c": "Türkiye", "k": "c", "st": 2, "sec": ("Su", "Water", "آب"), "d": ("Evler için gri su geri dönüşüm kiti — duş suyunu bahçe ve sifon için arıtır.", "Greywater recycling kit for homes — cleans shower water for garden + toilet use.", "کیت بازیافت آب خاکستری خانه — آب حمام را برای باغ و سرویس بهداشتی تصفیه می‌کند.")},
+ {"e": "🧱", "n": "RePlast", "c": "Türkiye", "k": "c", "st": 3, "sec": ("Atık", "Waste", "پسماند"), "d": ("Plastik atıkları yapı tuğlasına çevirir — 1 ton plastik = 800 tuğla.", "Turns plastic waste into building bricks — 1 ton of plastic = 800 bricks.", "پسماند پلاستیک را به آجر ساختمانی تبدیل می‌کند — ۱ تن پلاستیک = ۸۰۰ آجر.")},
+ {"e": "🌾", "n": "AgroSense", "c": "Kenya", "k": "c", "st": 2, "sec": ("Tarım Teknolojisi", "AgriTech", "فناوری کشاورزی"), "d": ("Küçük çiftçiler için toprak sensörü — sulamayı %40 azaltır, SMS ile uyarır.", "Soil sensor for small farmers — cuts irrigation 40%, alerts by SMS.", "سنسور خاک برای کشاورزان خرد — آبیاری را ۴۰٪ کم می‌کند، با پیامک هشدار می‌دهد.")},
+ {"e": "🔋", "n": "VoltVault", "c": "Germany", "k": "c", "st": 1, "sec": ("Enerji", "Energy", "انرژی"), "d": ("Eski elektrikli araç bataryalarından köy mikro-şebekeleri kurar.", "Builds village micro-grids from second-life EV batteries.", "از باتری‌های دست‌دوم خودروی برقی، ریزشبکه برق روستایی می‌سازد.")},
+ {"e": "🌊", "n": "AquaHarvest", "c": "UAE", "k": "c", "st": 3, "sec": ("Su", "Water", "آب"), "d": ("Havadan su üreten cihaz — günde 50 litre, güneş enerjisiyle çalışır.", "Atmospheric water generator — 50 liters/day, solar-powered.", "دستگاه تولید آب از هوا — روزی ۵۰ لیتر، با انرژی خورشیدی کار می‌کند.")},
+ {"e": "🍞", "n": "CrumbCycle", "c": "France", "k": "c", "st": 2, "sec": ("Gıda", "Food", "غذا"), "d": ("Fırın fazlası ekmeği hayvan yemine çeviren toplama ağı.", "Collection network turning surplus bakery bread into animal feed.", "شبکه جمع‌آوری نان اضافه نانوایی‌ها و تبدیل آن به خوراک دام.")},
+ {"e": "🚲", "n": "CargoBee", "c": "Netherlands", "k": "c", "st": 3, "sec": ("Ulaşım", "Mobility", "حمل‌ونقل"), "d": ("Son kilometre teslimat için e-kargo bisiklet filosu — sıfır emisyon.", "E-cargo bike fleet for last-mile delivery — zero emission.", "ناوگان دوچرخه باربری برقی برای تحویل آخر مسیر — بدون آلایندگی.")},
+ {"e": "🏠", "n": "ThermoBrick", "c": "Egypt", "k": "c", "st": 1, "sec": ("Yapı", "Buildings", "ساختمان"), "d": ("Tarımsal atıktan yalıtımlı tuğla — evleri yazın serin, kışın sıcak tutar.", "Insulating bricks from farm waste — homes stay cool in summer, warm in winter.", "آجر عایق از ضایعات کشاورزی — خانه را تابستان خنک و زمستان گرم نگه می‌دارد.")},
+ {"e": "🌳", "n": "CarbonGarden", "c": "UK", "k": "c", "st": 0, "sec": ("Karbon", "Carbon", "کربن"), "d": ("Şehirlere mikro-ormanlar kurar, KOBİ'lere karbon kredisi sunar.", "Plants urban micro-forests and offers carbon credits to small businesses.", "در شهرها ریزجنگل می‌کارد و به کسب‌وکارهای کوچک اعتبار کربن می‌دهد.")},
+ {"e": "🧸", "n": "YetimTech", "c": "Türkiye", "k": "s", "st": 3, "sec": ("Yetim Bakımı", "Orphan Care", "مراقبت از ایتام"), "d": ("Şeffaf yetim sponsorluk platformu — aylık bağış, fotoğraf ve mektup takibi.", "Transparent orphan sponsorship platform — monthly giving with photo + letter updates.", "پلتفرم شفاف حمایت از ایتام — کمک ماهانه با عکس و نامه کودک.")},
+ {"e": "🎒", "n": "SchoolKit", "c": "Pakistan", "k": "s", "st": 2, "sec": ("Eğitim", "Education", "آموزش"), "d": ("Köy çocuklarına çanta ve kırtasiye aboneliği — her dönem otomatik ulaşır.", "Bag + stationery subscription for village kids — auto-delivered each term.", "اشتراک کیف و لوازم‌التحریر برای کودکان روستایی — هر ترم خودکار می‌رسد.")},
+ {"e": "🍲", "n": "WarmPlate", "c": "Jordan", "k": "s", "st": 1, "sec": ("Gıda", "Food", "غذا"), "d": ("Kriz bölgelerine franchising aşevleri — günde 5.000 sıcak yemek.", "Franchise soup kitchens for crisis zones — 5,000 hot meals a day.", "آشپزخانه‌های زنجیره‌ای برای مناطق بحرانی — روزی ۵٬۰۰۰ غذای گرم.")},
+ {"e": "👩‍⚕️", "n": "MobileClinic", "c": "Bangladesh", "k": "s", "st": 3, "sec": ("Sağlık", "Health", "سلامت"), "d": ("Kırsal anneler için mobil sağlık minibüsleri — aşı ve doğum öncesi bakım.", "Mobile health vans for rural mothers — vaccines + prenatal care.", "ون‌های سلامت سیار برای مادران روستایی — واکسن و مراقبت بارداری.")},
+ {"e": "📚", "n": "ReadBridge", "c": "Germany", "k": "s", "st": 2, "sec": ("Eğitim", "Education", "آموزش"), "d": ("Mülteci çocuklara ana dilde hikâye kitapları — 12 dilde basıldı.", "Mother-tongue storybooks for refugee children — printed in 12 languages.", "کتاب داستان به زبان مادری برای کودکان پناهنده — چاپ به ۱۲ زبان.")},
+ {"e": "🧵", "n": "LoomHope", "c": "Burkina Faso", "k": "s", "st": 1, "sec": ("Geçim", "Livelihood", "معیشت"), "d": ("Dul anneler için dokuma kooperatifleri — tezgâh ve pazar erişimi sağlar.", "Weaving cooperatives for widowed mothers — looms + market access.", "تعاونی‌های بافندگی برای مادران بیوه — دستگاه بافندگی و دسترسی به بازار.")},
+ {"e": "❄️", "n": "WinterShield", "c": "Türkiye", "k": "s", "st": 2, "sec": ("Yardım", "Relief", "امداد"), "d": ("Kış yardım kiti kitlesel fonlaması — mont, bot ve ısıtıcı.", "Crowdfunded winter aid kits — coat, boots + heater.", "تأمین جمعی کیت زمستانی — کاپشن، چکمه و بخاری.")},
+ {"e": "💧", "n": "WellDrop", "c": "Mali", "k": "s", "st": 3, "sec": ("Su", "Water", "آب"), "d": ("Canlı GPS takipli güneş enerjili su kuyuları — bağışçı kuyusunu izler.", "Solar water wells with live GPS tracking — donors watch their well.", "چاه آب خورشیدی با ردیابی زنده GPS — خیر چاهش را دنبال می‌کند.")},
+ {"e": "🎓", "n": "SkillSprout", "c": "Türkiye", "k": "s", "st": 2, "sec": ("Geçim", "Livelihood", "معیشت"), "d": ("Yetim gençlere meslek kursları — dikiş, kodlama, tasarım.", "Vocational courses for orphan youth — sewing, coding, design.", "دوره‌های مهارتی برای جوانان یتیم — خیاطی، برنامه‌نویسی، طراحی.")},
+ {"e": "🤝", "n": "KinLink", "c": "UK", "k": "s", "st": 0, "sec": ("Yetim Bakımı", "Orphan Care", "مراقبت از ایتام"), "d": ("Aileleri yetim aileleriyle eşleştiren platform — aylık destek ve ziyaret.", "Platform pairing families with orphan families — monthly support + visits.", "پلتفرم پیوند خانواده‌ها با خانواده‌های دارای یتیم — حمایت ماهانه و دیدار.")},
+]
 
 def menu_kb(lg):
     s = T[lg]
@@ -148,6 +188,7 @@ def menu_kb(lg):
          InlineKeyboardButton(s["contact"], callback_data="m:contact")],
         [InlineKeyboardButton(s["site"], callback_data="m:site"),
          InlineKeyboardButton(s["lang"], callback_data="m:lang")],
+        [InlineKeyboardButton(s["startups"], callback_data="m:startups")],
     ])
 
 def site_kb(lg):
@@ -190,6 +231,43 @@ async def show_skills(q, lg, pg):
     rows.append(nav)
     await q.edit_message_text(f"{T[lg]['skills_title']} ({pg + 1}/{total})",
                               reply_markup=InlineKeyboardMarkup(rows))
+
+def su_kb(lg):
+    s = T[lg]
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(s["su_climate"], callback_data="su:c:0"),
+         InlineKeyboardButton(s["su_social"], callback_data="su:s:0")],
+        [InlineKeyboardButton(s["back"], callback_data="m:menu")],
+    ])
+
+async def show_su_list(q, lg, cat, pg, uid):
+    idxs = [i for i, s in enumerate(STARTUPS) if s["k"] == cat]
+    total = max(1, (len(idxs) + PER_PAGE - 1) // PER_PAGE)
+    pg = max(0, min(pg, total - 1))
+    user_su[uid] = (cat, pg)
+    rows = []
+    for i in idxs[pg * PER_PAGE:(pg + 1) * PER_PAGE]:
+        s = STARTUPS[i]
+        rows.append([InlineKeyboardButton(f"{s['e']} {s['n']}", callback_data=f"st:{i}")])
+    nav = []
+    if pg > 0:
+        nav.append(InlineKeyboardButton("◀", callback_data=f"su:{cat}:{pg - 1}"))
+    nav.append(InlineKeyboardButton(T[lg]["back"], callback_data="m:startups"))
+    if pg < total - 1:
+        nav.append(InlineKeyboardButton("▶", callback_data=f"su:{cat}:{pg + 1}"))
+    rows.append(nav)
+    await q.edit_message_text(f"{T[lg]['su_title']} ({pg + 1}/{total})",
+                              reply_markup=InlineKeyboardMarkup(rows))
+
+async def show_su_detail(q, lg, idx, uid):
+    s = STARTUPS[idx]
+    li = LI[lg]
+    badge = SU_BADGE[lg][0 if s["k"] == "c" else 1]
+    cat, pg = user_su.get(uid, (s["k"], 0))
+    kb = InlineKeyboardMarkup([[InlineKeyboardButton(T[lg]["back"], callback_data=f"su:{cat}:{pg}")]])
+    await q.edit_message_text(
+        f"{s['e']} {s['n']}\n📍 {s['c']} • {SU_STAGE[lg][s['st']]}\n🏷️ {s['sec'][li]}\n\n{s['d'][li]}\n\n{badge}",
+        reply_markup=kb, disable_web_page_preview=True)
 
 async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     user_lang[update.effective_user.id] = "en"
@@ -255,6 +333,13 @@ async def on_button(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
                                       disable_web_page_preview=True)
         else:
             await show_skills(q, lg, pg)
+    elif data == "m:startups":
+        await q.edit_message_text(T[lg]["su_title"], reply_markup=su_kb(lg))
+    elif data.startswith("su:"):
+        parts = data.split(":")
+        await show_su_list(q, lg, parts[1], int(parts[2]) if len(parts) > 2 else 0, uid)
+    elif data.startswith("st:"):
+        await show_su_detail(q, lg, int(data.split(":")[1]), uid)
     elif data.startswith("m:"):
         key = "b_" + data.split(":")[1]
         await q.edit_message_text(T[lg].get(key, "..."), reply_markup=back_kb(lg),

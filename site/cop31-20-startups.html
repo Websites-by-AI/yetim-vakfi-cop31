@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>20 Startups • COP31 × Yetim Vakfı</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f2f5f1;color:#1f2937;line-height:1.7}
+body.rtl{direction:rtl;font-family:Tahoma,"Segoe UI",Arial,sans-serif}
+.hero{background:linear-gradient(135deg,#1e3a8a,#059669 70%,#10b981);color:#fff;padding:34px 0 26px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.hero h1{font-size:24px}
+.hero p{opacity:.93;font-size:14px;margin-top:6px;max-width:760px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{border:1.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:7px 18px;font-size:13.5px;font-weight:bold;cursor:pointer;font-family:inherit}
+.pill.on{background:#fff;color:#065f46}
+.bar{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 0;position:sticky;top:0;z-index:5}
+.bar .wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fbtn{border:2px solid #d1d5db;background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:bold;cursor:pointer;font-family:inherit;color:#374151}
+.fbtn.on{border-color:#059669;background:#ecfdf5;color:#065f46}
+.count{margin-inline-start:auto;font-size:13px;color:#6b7280}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:20px 0 10px}
+.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.07);border-top:5px solid #059669;display:flex;flex-direction:column;gap:8px}
+.card.soc{border-top-color:#f59e0b}
+.card h3{font-size:17px}
+.card .meta{font-size:12.5px;color:#6b7280}
+.tag{display:inline-block;background:#ecfdf5;color:#065f46;border-radius:999px;padding:2px 12px;font-size:12px;font-weight:bold}
+.card.soc .tag{background:#fef3c7;color:#92400e}
+.card .desc{font-size:13.5px;flex:1}
+.badge{font-size:12.5px;font-weight:bold;color:#1e40af;background:#eff6ff;border-radius:10px;padding:6px 10px}
+.card.soc .badge{color:#92400e;background:#fffbeb}
+footer{padding:22px 0 40px;text-align:center}
+footer a{color:#059669;font-weight:bold;text-decoration:none;font-size:15px}
+</style>
+</head>
+<body>
+<div class="hero"><div class="wrap">
+<h1 id="title">20 Startup Vitrini</h1>
+<p id="subtitle"></p>
+<div class="pills">
+<button class="pill on" data-l="0">Türkçe</button>
+<button class="pill" data-l="1">English</button>
+<button class="pill" data-l="2">فارسی</button>
+</div>
+</div></div>
+<div class="bar"><div class="wrap">
+<button class="fbtn on" data-f="all" id="fAll">Tümü</button>
+<button class="fbtn" data-f="c" id="fC">🌱 İklim</button>
+<button class="fbtn" data-f="s" id="fS">💛 Sosyal</button>
+<span class="count" id="count"></span>
+</div></div>
+<div class="wrap"><div class="grid" id="grid"></div>
+<footer><a href="index.html" id="back">← Ana Sayfa</a></footer>
+</div>
+<script>
+var UI=[
+{t:"20 Startup Vitrini",s:"10 iklim girişimi (Startup Zone adayı) + 10 sosyal girişim (vakıf modeli). Filtrele, keşfet, ilham al!",all:"Tümü",c:"🌱 İklim",s2:"💛 Sosyal",bc:"✅ Startup Zone adayı",bs:"💛 Vakıf modeli",back:"← Ana Sayfa",n:"girişim"},
+{t:"20 Startups Showcase",s:"10 climate ventures (Startup Zone fits) + 10 social ventures (foundation models). Filter, explore, get inspired!",all:"All",c:"🌱 Climate",s2:"💛 Social",bc:"✅ Startup Zone fit",bs:"💛 Foundation model",back:"← Home",n:"ventures"},
+{t:"ویترین ۲۰ استارتاپ",s:"۱۰ استارتاپ اقلیمی (مناسب Startup Zone) + ۱۰ استارتاپ اجتماعی (مدل خیریه). فیلتر کن، کشف کن، الهام بگیر!",all:"همه",c:"🌱 اقلیمی",s2:"💛 اجتماعی",bc:"✅ مناسب Startup Zone",bs:"💛 مدل خیریه",back:"← خانه",n:"استارتاپ"}
+];
+var ST=[["Fikir","Idea","ایده"],["Prototip","Prototype","نمونه اولیه"],["Ön Tohum","Pre-seed","پیش‌بذری"],["Tohum","Seed","بذری"]];
+var SU=[
+{e:"☀️",n:"SolarSack",c:"Türkiye",k:"c",st:1,sec:["Enerji","Energy","انرژی"],d:["Öğrenciler için güneş panelli sırt çantası: gündüz şarj olur, gece ışık ve telefon şarjı verir.","Solar-panel backpack for students: charges by day, gives light + phone charge at night.","کوله‌پشتی خورشیدی برای دانش‌آموزان: روز شارژ می‌شود، شب نور و شارژ موبایل می‌دهد."]},
+{e:"💧",n:"DropLoop",c:"Türkiye",k:"c",st:2,sec:["Su","Water","آب"],d:["Evler için gri su geri dönüşüm kiti — duş suyunu bahçe ve sifon için arıtır.","Greywater recycling kit for homes — cleans shower water for garden + toilet use.","کیت بازیافت آب خاکستری خانه — آب حمام را برای باغ و سرویس بهداشتی تصفیه می‌کند."]},
+{e:"🧱",n:"RePlast",c:"Türkiye",k:"c",st:3,sec:["Atık","Waste","پسماند"],d:["Plastik atıkları yapı tuğlasına çevirir — 1 ton plastik = 800 tuğla.","Turns plastic waste into building bricks — 1 ton of plastic = 800 bricks.","پسماند پلاستیک را به آجر ساختمانی تبدیل می‌کند — ۱ تن پلاستیک = ۸۰۰ آجر."]},
+{e:"🌾",n:"AgroSense",c:"Kenya",k:"c",st:2,sec:["Tarım Teknolojisi","AgriTech","فناوری کشاورزی"],d:["Küçük çiftçiler için toprak sensörü — sulamayı %40 azaltır, SMS ile uyarır.","Soil sensor for small farmers — cuts irrigation 40%, alerts by SMS.","سنسور خاک برای کشاورزان خرد — آبیاری را ۴۰٪ کم می‌کند، با پیامک هشدار می‌دهد."]},
+{e:"🔋",n:"VoltVault",c:"Germany",k:"c",st:1,sec:["Enerji","Energy","انرژی"],d:["Eski elektrikli araç bataryalarından köy mikro-şebekeleri kurar.","Builds village micro-grids from second-life EV batteries.","از باتری‌های دست‌دوم خودروی برقی، ریزشبکه برق روستایی می‌سازد."]},
+{e:"🌊",n:"AquaHarvest",c:"UAE",k:"c",st:3,sec:["Su","Water","آب"],d:["Havadan su üreten cihaz — günde 50 litre, güneş enerjisiyle çalışır.","Atmospheric water generator — 50 liters/day, solar-powered.","دستگاه تولید آب از هوا — روزی ۵۰ لیتر، با انرژی خورشیدی کار می‌کند."]},
+{e:"🍞",n:"CrumbCycle",c:"France",k:"c",st:2,sec:["Gıda","Food","غذا"],d:["Fırın fazlası ekmeği hayvan yemine çeviren toplama ağı.","Collection network turning surplus bakery bread into animal feed.","شبکه جمع‌آوری نان اضافه نانوایی‌ها و تبدیل آن به خوراک دام."]},
+{e:"🚲",n:"CargoBee",c:"Netherlands",k:"c",st:3,sec:["Ulaşım","Mobility","حمل‌ونقل"],d:["Son kilometre teslimat için e-kargo bisiklet filosu — sıfır emisyon.","E-cargo bike fleet for last-mile delivery — zero emission.","ناوگان دوچرخه باربری برقی برای تحویل آخر مسیر — بدون آلایندگی."]},
+{e:"🏠",n:"ThermoBrick",c:"Egypt",k:"c",st:1,sec:["Yapı","Buildings","ساختمان"],d:["Tarımsal atıktan yalıtımlı tuğla — evleri yazın serin, kışın sıcak tutar.","Insulating bricks from farm waste — homes stay cool in summer, warm in winter.","آجر عایق از ضایعات کشاورزی — خانه را تابستان خنک و زمستان گرم نگه می‌دارد."]},
+{e:"🌳",n:"CarbonGarden",c:"UK",k:"c",st:0,sec:["Karbon","Carbon","کربن"],d:["Şehirlere mikro-ormanlar kurar, KOBİ'lere karbon kredisi sunar.","Plants urban micro-forests and offers carbon credits to small businesses.","در شهرها ریزجنگل می‌کارد و به کسب‌وکارهای کوچک اعتبار کربن می‌دهد."]},
+{e:"🧸",n:"YetimTech",c:"Türkiye",k:"s",st:3,sec:["Yetim Bakımı","Orphan Care","مراقبت از ایتام"],d:["Şeffaf yetim sponsorluk platformu — aylık bağış, fotoğraf ve mektup takibi.","Transparent orphan sponsorship platform — monthly giving with photo + letter updates.","پلتفرم شفاف حمایت از ایتام — کمک ماهانه با عکس و نامه کودک."]},
+{e:"🎒",n:"SchoolKit",c:"Pakistan",k:"s",st:2,sec:["Eğitim","Education","آموزش"],d:["Köy çocuklarına çanta ve kırtasiye aboneliği — her dönem otomatik ulaşır.","Bag + stationery subscription for village kids — auto-delivered each term.","اشتراک کیف و لوازم‌التحریر برای کودکان روستایی — هر ترم خودکار می‌رسد."]},
+{e:"🍲",n:"WarmPlate",c:"Jordan",k:"s",st:1,sec:["Gıda","Food","غذا"],d:["Kriz bölgelerine franchising aşevleri — günde 5.000 sıcak yemek.","Franchise soup kitchens for crisis zones — 5,000 hot meals a day.","آشپزخانه‌های زنجیره‌ای برای مناطق بحرانی — روزی ۵٬۰۰۰ غذای گرم."]},
+{e:"👩‍⚕️",n:"MobileClinic",c:"Bangladesh",k:"s",st:3,sec:["Sağlık","Health","سلامت"],d:["Kırsal anneler için mobil sağlık minibüsleri — aşı ve doğum öncesi bakım.","Mobile health vans for rural mothers — vaccines + prenatal care.","ون‌های سلامت سیار برای مادران روستایی — واکسن و مراقبت بارداری."]},
+{e:"📚",n:"ReadBridge",c:"Germany",k:"s",st:2,sec:["Eğitim","Education","آموزش"],d:["Mülteci çocuklara ana dilde hikâye kitapları — 12 dilde basıldı.","Mother-tongue storybooks for refugee children — printed in 12 languages.","کتاب داستان به زبان مادری برای کودکان پناهنده — چاپ به ۱۲ زبان."]},
+{e:"🧵",n:"LoomHope",c:"Burkina Faso",k:"s",st:1,sec:["Geçim","Livelihood","معیشت"],d:["Dul anneler için dokuma kooperatifleri — tezgâh ve pazar erişimi sağlar.","Weaving cooperatives for widowed mothers — looms + market access.","تعاونی‌های بافندگی برای مادران بیوه — دستگاه بافندگی و دسترسی به بازار."]},
+{e:"❄️",n:"WinterShield",c:"Türkiye",k:"s",st:2,sec:["Yardım","Relief","امداد"],d:["Kış yardım kiti kitlesel fonlaması — mont, bot ve ısıtıcı.","Crowdfunded winter aid kits — coat, boots + heater.","تأمین جمعی کیت زمستانی — کاپشن، چکمه و بخاری."]},
+{e:"💧",n:"WellDrop",c:"Mali",k:"s",st:3,sec:["Su","Water","آب"],d:["Canlı GPS takipli güneş enerjili su kuyuları — bağışçı kuyusunu izler.","Solar water wells with live GPS tracking — donors watch their well.","چاه آب خورشیدی با ردیابی زنده GPS — خیر چاهش را دنبال می‌کند."]},
+{e:"🎓",n:"SkillSprout",c:"Türkiye",k:"s",st:2,sec:["Geçim","Livelihood","معیشت"],d:["Yetim gençlere meslek kursları — dikiş, kodlama, tasarım.","Vocational courses for orphan youth — sewing, coding, design.","دوره‌های مهارتی برای جوانان یتیم — خیاطی، برنامه‌نویسی، طراحی."]},
+{e:"🤝",n:"KinLink",c:"UK",k:"s",st:0,sec:["Yetim Bakımı","Orphan Care","مراقبت از ایتام"],d:["Aileleri yetim aileleriyle eşleştiren platform — aylık destek ve ziyaret.","Platform pairing families with orphan families — monthly support + visits.","پلتفرم پیوند خانواده‌ها با خانواده‌های دارای یتیم — حمایت ماهانه و دیدار."]}
+];
+var lang=0, filter="all";
+function render(){
+document.body.className = lang===2 ? "rtl" : "";
+var u=UI[lang];
+document.getElementById("title").textContent=u.t;
+document.getElementById("subtitle").textContent=u.s;
+document.getElementById("fAll").textContent=u.all;
+document.getElementById("fC").textContent=u.c;
+document.getElementById("fS").textContent=u.s2;
+document.getElementById("back").textContent=u.back;
+var list=SU.filter(function(s){return filter==="all"||s.k===filter;});
+document.getElementById("count").textContent=list.length+" "+u.n;
+var h="";
+list.forEach(function(s){
+h+='<div class="card '+(s.k==="s"?"soc":"")+'"><h3>'+s.e+" "+s.n+'</h3><div class="meta">📍 '+s.c+" • "+ST[s.st][lang]+'</div><div><span class="tag">'+s.sec[lang]+'</span></div><div class="desc">'+s.d[lang]+'</div><div class="badge">'+(s.k==="c"?u.bc:u.bs)+"</div></div>";
+});
+document.getElementById("grid").innerHTML=h;
+var pills=document.querySelectorAll(".pill");
+for(var i=0;i<pills.length;i++){pills[i].className="pill"+(parseInt(pills[i].getAttribute("data-l"))===lang?" on":"");}
+var fbs=document.querySelectorAll(".fbtn");
+for(var j=0;j<fbs.length;j++){fbs[j].className="fbtn"+(fbs[j].getAttribute("data-f")===filter?" on":"");}
+}
+var pl=document.querySelectorAll(".pill");
+for(var a=0;a<pl.length;a++){pl[a].onclick=function(){lang=parseInt(this.getAttribute("data-l"));render();};}
+var fb=document.querySelectorAll(".fbtn");
+for(var b=0;b<fb.length;b++){fb[b].onclick=function(){filter=this.getAttribute("data-f");render();};}
+render();
+</script>
+<script src="aya-widget.js"></script>
+</body>
+</html>
