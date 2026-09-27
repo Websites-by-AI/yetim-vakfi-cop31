@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog & News • Yetim Vakfı × COP31</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f2f5f1;color:#1f2937;line-height:1.8}
+body.rtl{direction:rtl;font-family:Tahoma,"Segoe UI",Arial,sans-serif}
+.hero{background:linear-gradient(135deg,#7c3aed,#0d7377 70%,#059669);color:#fff;padding:34px 0 26px}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+.hero h1{font-size:24px}
+.hero p{opacity:.93;font-size:14px;margin-top:6px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{border:1.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:7px 18px;font-size:13.5px;font-weight:bold;cursor:pointer;font-family:inherit}
+.pill.on{background:#fff;color:#065f46}
+.post{background:#fff;border-radius:16px;padding:20px;box-shadow:0 6px 20px rgba(0,0,0,.07);margin:16px 0;border-inline-start:5px solid #7c3aed}
+.post .date{display:inline-block;background:#ede9fe;color:#5b21b6;border-radius:999px;padding:2px 12px;font-size:12px;font-weight:bold;margin-bottom:8px}
+.post h2{font-size:18px;margin-bottom:6px}
+.post p{font-size:14px;color:#374151}
+.post a.src{display:inline-block;margin-top:10px;color:#0d7377;font-weight:bold;text-decoration:none;font-size:14px}
+footer{text-align:center;padding:10px 0 40px}
+footer a{color:#059669;font-weight:bold;text-decoration:none;font-size:15px}
+</style>
+</head>
+<body>
+<div class="hero"><div class="wrap">
+<h1 id="title">Blog & Haberler</h1>
+<p id="subtitle"></p>
+<div class="pills">
+<button class="pill on" data-l="0">Türkçe</button>
+<button class="pill" data-l="1">English</button>
+<button class="pill" data-l="2">فارسی</button>
+</div>
+</div></div>
+<div class="wrap">
+<div id="posts"></div>
+<footer><a href="index.html" id="back">← Ana Sayfa</a></footer>
+</div>
+<script>
+var UI=[
+{t:"Blog & Haberler",s:"Vakıftan haberler — tam metin için kaynağa gidin.",back:"← Ana Sayfa",read:"yetimvakfi.org.tr'de oku →"},
+{t:"Blog & News",s:"Foundation news — follow the source link for full stories.",back:"← Home",read:"Read on yetimvakfi.org.tr →"},
+{t:"وبلاگ و اخبار",s:"اخبار موسسه — برای متن کامل به منبع بروید.",back:"← خانه",read:"خواندن در yetimvakfi.org.tr ←"}
+];
+var POSTS=[
+{e:"🎨",date:"23.09.2026",url:"https://yetimvakfi.org.tr/haber/turkiyenin-dort-bir-yaninda-filistinli-cocuklar-icin-ciziyoruz",
+t:["Filistinli Çocuklar İçin Çiz — 3 Ekim'de 81 İlde","Draw for Palestinian Children — Oct 3 in 81 Provinces","نقاشی برای کودکان فلسطین — ۳ اکتبر در ۸۱ استان"],
+x:["7 Ekim'in 3. yılında binlerce kişi, Gazzeli çocukların sesini çizimleriyle duyuracak. Etkinlik 3 Ekim Cumartesi günü 81 ilde.","On the 3rd anniversary of Oct 7, thousands will give voice to Gazan children through drawings — Saturday Oct 3, in all 81 provinces.","در سومین سالگرد ۷ اکتبر، هزاران نفر با نقاشی صدای کودکان غزه می‌شوند — شنبه ۳ اکتبر در هر ۸۱ استان."]},
+{e:"🎒",date:"11.09.2026",url:"https://yetimvakfi.org.tr/haber/yetim-vakfi-20-binden-fazla-cocugun-okula-donus-heyecanina-ortak-oldu",
+t:["20 Binden Fazla Çocuğa Çanta ve Kırtasiye","Bags + Stationery for 20,000+ Children","کیف و لوازم‌التحریر برای +۲۰٬۰۰۰ کودک"],
+x:["19 ülkede “İyilik Çantası Sizinle Dolsun” projesi: okul çantası, kırtasiye seti ve forma desteği.","“Kindness Bag” project in 19 countries: school bags, stationery sets and uniform support.","پروژه «کیف مهربانی» در ۱۹ کشور: کیف مدرسه، بسته لوازم‌التحریر و لباس فرم."]},
+{e:"🎓",date:"31.08.2026",url:"https://yetimvakfi.org.tr/haber/yks-basarisini-yetim-kardesleriyle-paylasti",
+t:["YKS 74.sü Ödülünü Yetimlere Bağışladı","Top YKS Scorer Donated His ₺100K Prize","رتبه ۷۴ کنکور جایزه‌اش را به ایتام بخشید"],
+x:["Koç Üniversitesi'ni kazanan Behlül Karadeniz, 100 bin TL'lik ödülünü Yetim Vakfı'na bağışladı.","Behlül Karadeniz, ranked 74th in Türkiye, donated his 100,000 TL award to Yetim Vakfı.","بهلول کارادنیز، رتبه ۷۴ ترکیه، جایزه ۱۰۰ هزار لیری‌اش را به یتیم‌وکفی اهدا کرد."]},
+{e:"☀️",date:"30.08.2026",url:"https://yetimvakfi.org.tr/haber/yetim-vakfinda-yaz-molasi-etkinlikleri-tamamlandi",
+t:["“Yaz Molası” Kapanışla Tamamlandı","“Summer Break” Wrapped Up","«تعطیلات تابستانی» به پایان رسید"],
+x:["Bir aylık program: sanat, spor, gezi ve psikososyal etkinliklerle dolu bir yaz.","A one-month program full of art, sports, trips and psychosocial activities.","برنامه یک‌ماهه پر از هنر، ورزش، اردو و فعالیت‌های روان‌اجتماعی."]},
+{e:"🐑",date:"01.06.2026",url:"https://yetimvakfi.org.tr/haber/2026-kurban-bereketi-sinirlari-asti",
+t:["Kurban Bereketi: 591 Bin Kişiye Ulaşıldı","Qurbani Bounty: 591K People Reached","برکت قربانی: ۵۹۱ هزار نفر"],
+x:["21 ülkede 12.080 hisse kurban kesildi; 591.170 kişiye ulaşıldı.","12,080 shares sacrificed in 21 countries, reaching 591,170 people.","۱۲٬۰۸۰ سهم قربانی در ۲۱ کشور؛ رسیدن به ۵۹۱٬۱۷۰ نفر."]},
+{e:"📖",date:"15.05.2026",url:"https://yetimvakfi.org.tr/haber/yetim-vakfi-elimsende-2.-sayisi-yayinda",
+t:["Elimsende 2. Sayı: “Çocuk ve Savaş”","Elimsende Issue #2: “Child and War”","شماره ۲ الیم‌سنده: «کودک و جنگ»"],
+x:["Çocuk odaklı kültür-sanat dergisinin yeni sayısı okurlarla buluştu.","The child-focused culture & arts magazine's new issue is out.","شماره جدید مجله فرهنگی-هنری کودک منتشر شد."]}
+];
+var lang=0;
+function render(){
+document.body.className=lang===2?"rtl":"";
+var u=UI[lang];
+document.getElementById("title").textContent=u.t;
+document.getElementById("subtitle").textContent=u.s;
+document.getElementById("back").textContent=u.back;
+var h="";
+POSTS.forEach(function(p){
+h+='<article class="post"><span class="date">'+p.date+'</span><h2>'+p.e+" "+p.t[lang]+'</h2><p>'+p.x[lang]+'</p><a class="src" href="'+p.url+'" target="_blank" rel="noopener">'+u.read+"</a></article>";
+});
+document.getElementById("posts").innerHTML=h;
+var pills=document.querySelectorAll(".pill");
+for(var i=0;i<pills.length;i++){pills[i].className="pill"+(parseInt(pills[i].getAttribute("data-l"))===lang?" on":"");}
+}
+var pl=document.querySelectorAll(".pill");
+for(var a=0;a<pl.length;a++){pl[a].onclick=function(){lang=parseInt(this.getAttribute("data-l"));render();};}
+render();
+</script>
+<script src="site-nav.js"></script>
+<script src="aya-widget.js"></script>
+</body>
+</html>
