@@ -156,5 +156,6 @@ const boxes=document.querySelectorAll('#checklist input');
 function upd(){const d=[...boxes].filter(b=>b.checked).length;const p=Math.round(d/boxes.length*100);document.getElementById('bar').style.width=p+'%';document.getElementById('pct').textContent=p+'%';}
 boxes.forEach(b=>b.addEventListener('change',upd));
 </script>
+<script src="aya-widget.js"></script>
 </body>
 </html>

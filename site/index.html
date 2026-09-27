@@ -38,5 +38,23 @@ body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#fa
     📞 +90 212 970 60 60
   </div>
 </div>
+<script src="aya-widget.js"></script>
+<script>
+/* WordPress-like edit mode: click pencil, edit texts, click again to save (this browser). Double-click resets. */
+(function(){
+const KEY="aya_index_edits",SEL=".hero h1,.hero p,.card h2,.card p";
+const btn=document.createElement("button");
+btn.textContent="✏️"; btn.title="Edit mode";
+btn.style.cssText="position:fixed;bottom:20px;left:20px;width:46px;height:46px;border-radius:50%;background:#fff;border:2px solid #0d7377;font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.2);z-index:9997";
+document.body.appendChild(btn);
+const els=()=>[...document.querySelectorAll(SEL)];
+function save(){try{localStorage.setItem(KEY,JSON.stringify(els().map(e=>e.innerHTML)));}catch(e){}}
+function load(){try{const a=JSON.parse(localStorage.getItem(KEY)||"[]");els().forEach((e,i)=>{if(a[i])e.innerHTML=a[i];});}catch(e){}}
+let on=false;
+btn.onclick=()=>{on=!on;els().forEach(e=>{e.contentEditable=on;e.style.outline=on?"2px dashed #0d7377":"";});btn.style.background=on?"#fef3c7":"#fff";if(!on)save();};
+btn.ondblclick=()=>{try{localStorage.removeItem(KEY);}catch(e){}location.reload();};
+load();
+})();
+</script>
 </body>
 </html>

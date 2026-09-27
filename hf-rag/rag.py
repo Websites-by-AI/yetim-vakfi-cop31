@@ -67,6 +67,10 @@ def retriever():
         _RETRIEVER = Retriever(load_kb())
     return _RETRIEVER
 
+def entries():
+    """All 20 knowledge entries (Aya's skills)."""
+    return load_kb()
+
 def ask(question, lang=None, top_k=1):
     """Return {'answer','title','score','id'} for the best match."""
     results = retriever().search(question, lang=lang, top_k=top_k)

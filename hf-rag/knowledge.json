@@ -30,5 +30,13 @@
  {"id": "stationery-en", "lang": "en", "title": "Stationery campaign",
   "text": "With 1,500 TL you cover one child's full stationery set. 2026 target: 20,000 children."},
  {"id": "stationery-tr", "lang": "tr", "title": "Kırtasiye kampanyası",
-  "text": "1.500 TL ile bir çocuğun tüm kırtasiye ihtiyacı karşılanır. 2026 hedefi: 20.000 çocuk."}
+  "text": "1.500 TL ile bir çocuğun tüm kırtasiye ihtiyacı karşılanır. 2026 hedefi: 20.000 çocuk."},
+ {"id": "app-en", "lang": "en", "title": "Mobile app",
+  "text": "Free Yetim Vakfi app: donate, manage sponsorships, track projects, receipts. App Store id6745053470, Google Play tr.org.yetimvakfi."},
+ {"id": "volunteer-en", "lang": "en", "title": "Become a volunteer",
+  "text": "Join as a volunteer via the form at https://yetimvakfi.org.tr/basvuru/gonullu-formu or contact +90 212 970 60 60."},
+ {"id": "ramadan-en", "lang": "en", "title": "Ramadan campaign",
+  "text": "Ramadan 2026 goal: reach 543,096 people in 30 countries with iftars, food parcels, zakat and fitrah."},
+ {"id": "gaza-en", "lang": "en", "title": "Gaza Hot Meal Project",
+  "text": "Gaza Hot Meal Project delivers hot meals in Gaza; donations are zakat-eligible. Info: https://yetimvakfi.org.tr/en/project/filistin-sicak-yemek"}
 ]
