@@ -550,8 +550,7 @@ campaigns:[
  {id:'zekat',icon:'🤲',color:'#7c3aed',goal:2500000,initial:1330750,tr:'Zekât & Sadaka Fonu',en:'Zakat & Sadaqah Fund',desc:'Zekâtınızla iyilik köprüsüne bir tuğla koyun.'},
  {id:'yetimhane',icon:'🏠',color:'#0284c7',goal:4000000,initial:1140200,tr:'Yetimhane & Yerleşkeler',en:'Orphanages & Settlements',desc:'Ailesinden ayrı düşen çocuklara sıcak bir yuva.'},
  {id:'gida',icon:'🧺',color:'#ea580c',goal:1200000,initial:402300,tr:'Gıda Paketi',en:'Food Parcel',desc:'Yetimlerin ve ihtiyaç sahiplerinin sofrasına bereket.'},
- {id:'egitim',icon:'🎓',color:'#db2777',goal:1800000,initial:655800,tr:'Eğitim & Burs Desteği',en:'Education & Scholarship',desc:'Yetim kardeşlerimizin hayallerine giden yolda yanlarında olun.'},
- {id:'yemen',icon:'🇾🇪',color:'#b45309',goal:1500000,initial:310000,tr:'Yemen Konut Projesi',en:'Yemen Housing Project',desc:'5 ev × 42 m² ($36.100) — çadırlardan güvenli evlere, sadaka-i cariye.'}
+ {id:'egitim',icon:'🎓',color:'#db2777',goal:1800000,initial:655800,tr:'Eğitim & Burs Desteği',en:'Education & Scholarship',desc:'Yetim kardeşlerimizin hayallerine giden yolda yanlarında olun.'}
 ],
 donations:[
  {id:uid(),donor:'Ömer Nadi Yılmaz',amount:100000,cur:'TRY',camp:'egitim',date:'2026-09-12',dtype:'one-time',note:'LGS birincilik ödülü bağışı 🎓'},
@@ -577,17 +576,15 @@ donations:[
  {id:uid(),donor:'Anadolu Lojistik A.Ş.',amount:85000,cur:'TRY',camp:'gaza',date:'2026-05-15',dtype:'corporate',note:'Un ve sıcak yemek'},
  {id:uid(),donor:'Derya Aksoy',amount:4500,cur:'TRY',camp:'canta',date:'2026-05-08',dtype:'one-time',note:'3 kırtasiye seti'},
  {id:uid(),donor:'Burak Güneş',amount:15000,cur:'TRY',camp:'kurban',date:'2026-04-22',dtype:'one-time',note:'Akika kurbanı'},
- {id:uid(),donor:'Seda Kılıç',amount:900,cur:'TRY',camp:'sponsor',date:'2026-04-10',dtype:'monthly',note:''},
- {id:uid(),donor:'Khalid Mansour',amount:500,cur:'USD',camp:'yemen',date:'2026-09-05',dtype:'sadaqah',note:'Yemen housing'},
- {id:uid(),donor:'Sare Demir',amount:2500,cur:'TRY',camp:'yemen',date:'2026-08-18',dtype:'one-time',note:'Sadaka-i cariye'}
+ {id:uid(),donor:'Seda Kılıç',amount:900,cur:'TRY',camp:'sponsor',date:'2026-04-10',dtype:'monthly',note:''}
 ]};}
 function uid(){return 'd'+Math.random().toString(36).slice(2,9)}
 let DB;
 try{ DB = JSON.parse(localStorage.getItem(KEY)) || sampleData(); }catch(e){ DB = sampleData(); }
 if(!DB.campaigns || !DB.donations) DB = sampleData();
 if(!DB.registrations) DB.registrations = sampleRegs();
-/* auto-add new official campaigns (e.g. Yemen) to existing saved data */
-try{sampleData().campaigns.forEach(function(c){if(!DB.campaigns.some(function(x){return x.id===c.id;}))DB.campaigns.push(c);});}catch(e){}
+/* cleanup: drop withdrawn sample campaign (yemen) from existing saved data */
+try{DB.campaigns=(DB.campaigns||[]).filter(function(c){return c.id!=='yemen';});DB.donations=(DB.donations||[]).filter(function(d){return !(d.camp==='yemen'&&(d.donor==='Khalid Mansour'||d.donor==='Sare Demir'));});}catch(e){}
 function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
 
 /* ================= HELPERS ================= */

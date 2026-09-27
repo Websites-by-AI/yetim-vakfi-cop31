@@ -53,7 +53,6 @@ P_GIFT = "https://yetimvakfi.org.tr/gift-donate"
 P_SMS = "https://yetimvakfi.org.tr/sms"
 P_BANK = "https://yetimvakfi.org.tr/hesap-numaralari"
 P_VOL = "https://yetimvakfi.org.tr/basvuru/gonullu-formu"
-P_YEMEN = "https://yetimvakfi.org.tr/en/project/yemen-konut-projesi"
 
 T = {
 "tr": {
@@ -72,7 +71,7 @@ T = {
  "b_startup": "🚀 Startup Zone Kuralları:\n✅ Sadece iklim startup'ları (şirket)\n✅ Desk stand: 0–3 yaş şirketler\n✅ Exhibitor (masa/5/15 m²) veya Sponsor\n📝 Sonuç: startup@cop31.tr\n❌ NGO'lar giremez → Climate Supporter yolunu kullanın\n\n🔗 " + STARTUP,
  "b_faq": "❓ SSS:\n• Yetim Vakfı nerede? → Fatih/İstanbul (iletişim menüsü)\n• Sponsorluk ne kadar? → Ayda 900 ₺\n• COP31'e nasıl katılırım? → cop31.tr/register-to-visit\n• Startup mıyız? → Hayır; NGO'lar Climate Supporter'a başvurur",
  "b_contact": "📞 İletişim:\n☎️ 0212 970 60 60\n✉️ info@yetimvakfi.org.tr\n📍 Dervişali, Kariye Cami Sk. No:6, 34087 Fatih/İstanbul\n🗺️ " + MAPS + "\n🌐 " + CONTACT_PAGE,
- "b_wprojects": "🏠 Projeler:\n🇾🇪 Yemen Konut: 5 ev × 42 m² = $36.100 (çadırlardan güvenli evlere)\n🍲 Gazze Sıcak Yemek • ❄️ Kış Yardımı • 🏦 Gıda Bankacılığı\n🧵 Kalkınma: dikiş, dokuma, tarım, hayvancılık\n🏠 Yetimhaneler • 🕊️ Esenlik Durakları\n\n🇾🇪 Yemen: " + P_YEMEN + "\n🔗 Tümü: " + P_PROJECTS,
+ "b_wprojects": "🏠 Projeler:\n🍲 Gazze Sıcak Yemek • ❄️ Kış Yardımı • 🏦 Gıda Bankacılığı\n🧵 Kalkınma: dikiş, dokuma, tarım, hayvancılık\n🏠 Yetimhaneler • 🕊️ Esenlik Durakları\n\n🔗 Tümü: " + P_PROJECTS,
  "b_wnews": "📰 Son haberler:\n🎒 20.000+ çocuğa kırtasiye sevinci\n🐑 2026 Kurban bereketi sınırları aştı\n📖 Elimsende 2. sayı yayında\n☀️ Yaz molası etkinlikleri\n\n🔗 Tümü: " + P_NEWS,
  "b_wmag": "📖 Elimsende Dergisi (2. sayı yayında!)\nVakfın süreli yayını — hikayeler ve projeler.\n\n🔗 " + P_MAG,
  "b_wgift": "🎁 Hediye Bağışı — bir çocuğu sevindirin!\nSevdikleriniz adına bağış hediye edin.\n\n🔗 " + P_GIFT,
@@ -97,7 +96,7 @@ T = {
  "b_startup": "🚀 Startup Zone Rules:\n✅ Climate startups (companies) only\n✅ Desk stand: companies 0–3 years old\n✅ Exhibitor (desk/5/15 m²) or Sponsor\n📝 Decisions via: startup@cop31.tr\n❌ NGOs cannot enter → use Climate Supporter lane\n\n🔗 " + STARTUP,
  "b_faq": "❓ FAQ:\n• Where is Yetim Vakfı? → Fatih/Istanbul (contact menu)\n• Sponsorship fee? → 900 ₺/month\n• How to join COP31? → cop31.tr/register-to-visit\n• Are we a startup? → No; NGOs apply as Climate Supporter",
  "b_contact": "📞 Contact:\n☎️ +90 212 970 60 60\n✉️ info@yetimvakfi.org.tr\n📍 Dervişali, Kariye Cami Sk. No:6, 34087 Fatih/Istanbul\n🗺️ " + MAPS + "\n🌐 " + CONTACT_PAGE,
- "b_wprojects": "🏠 Projects:\n🇾🇪 Yemen Housing: 5 houses × 42 m² = $36,100 (tents → safe homes)\n🍲 Gaza Hot Meal • ❄️ Winter Aid • 🏦 Food Banking\n🧵 Development: sewing, weaving, farming, livestock\n🏠 Orphanages • 🕊️ Stations of Peace\n\n🇾🇪 Yemen: " + P_YEMEN + "\n🔗 All: " + P_PROJECTS,
+ "b_wprojects": "🏠 Projects:\n🍲 Gaza Hot Meal • ❄️ Winter Aid • 🏦 Food Banking\n🧵 Development: sewing, weaving, farming, livestock\n🏠 Orphanages • 🕊️ Stations of Peace\n\n🔗 All: " + P_PROJECTS,
  "b_wnews": "📰 Latest news:\n🎒 Stationery joy for 20,000+ children\n🐑 2026 Qurbani beyond borders\n📖 Elimsende issue #2 out\n☀️ Summer break activities\n\n🔗 All: " + P_NEWS,
  "b_wmag": "📖 Elimsende Magazine (issue #2 out!)\nThe foundation's periodical — stories & projects.\n\n🔗 " + P_MAG,
  "b_wgift": "🎁 Gift Donation — make a kid happy!\nDonate a gift in a loved one's name.\n\n🔗 " + P_GIFT,
@@ -122,7 +121,7 @@ T = {
  "b_startup": "🚀 قوانین Startup Zone:\n✅ فقط استارتاپ‌های اقلیمی (شرکت)\n✅ میز: شرکت ۰ تا ۳ ساله\n✅ غرفه‌دار یا حامی\n📝 نتیجه: startup@cop31.tr\n❌ NGO پذیرفته نمی‌شود → مسیر Climate Supporter\n\n🔗 " + STARTUP,
  "b_faq": "❓ سؤالات:\n• یتیم‌وکفی کجاست؟ → فاتح/استانبول (منوی تماس)\n• هزینه حمایت؟ → ماهانه ۹۰۰ لیر\n• شرکت در COP31؟ → cop31.tr/register-to-visit\n• آیا استارتاپیم؟ → نه؛ NGOها Climate Supporter می‌شوند",
  "b_contact": "📞 تماس:\n☎️ 0212 970 60 60\n✉️ info@yetimvakfi.org.tr\n📍 Dervişali, Kariye Cami Sk. No:6, Fatih/İstanbul\n🗺️ " + MAPS,
- "b_wprojects": "🏠 پروژه‌ها:\n🇾🇪 مسکن یمن: ۵ خانه × ۴۲ متر = ۳۶٬۱۰۰ دلار (از چادر تا خانه امن)\n🍲 غذای گرم غزه • ❄️ کمک زمستانی • 🏦 بانک غذا\n🧵 توسعه: خیاطی، بافندگی، کشاورزی، دامداری\n🏠 یتیم‌خانه‌ها • 🕊️ ایستگاه‌های آرامش\n\n🇾🇪 یمن: " + P_YEMEN + "\n🔗 همه: " + P_PROJECTS,
+ "b_wprojects": "🏠 پروژه‌ها:\n🍲 غذای گرم غزه • ❄️ کمک زمستانی • 🏦 بانک غذا\n🧵 توسعه: خیاطی، بافندگی، کشاورزی، دامداری\n🏠 یتیم‌خانه‌ها • 🕊️ ایستگاه‌های آرامش\n\n🔗 همه: " + P_PROJECTS,
  "b_wnews": "📰 آخرین اخبار:\n🎒 شادی لوازم‌التحریر برای +۲۰٬۰۰۰ کودک\n🐑 قربانی ۲۰۲۶ فراتر از مرزها\n📖 شماره ۲ مجله الیم‌سنده\n☀️ فعالیت‌های تابستانی\n\n🔗 همه: " + P_NEWS,
  "b_wmag": "📖 مجله الیم‌سنده (شماره ۲ منتشر شد!)\nنشریه موسسه — داستان‌ها و پروژه‌ها.\n\n🔗 " + P_MAG,
  "b_wgift": "🎁 هدیه دادن — یک کودک را خوشحال کنید!\nبه نام عزیزانتان کمک هدیه بدهید.\n\n🔗 " + P_GIFT,
