@@ -218,7 +218,10 @@ async def ask_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
 async def on_button(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     q = update.callback_query
-    await q.answer()
+    try:
+        await q.answer()
+    except Exception:
+        pass  # stale button taps from old queue can't be answered - ignore
     uid = update.effective_user.id
     lg = user_lang.get(uid, "en")
     data = q.data
