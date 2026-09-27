@@ -1,0 +1,38 @@
+/* Yetim Vakfi x COP31 - shared design system.
+   Link in <head> BEFORE the page's own <style>:
+   <link rel="stylesheet" href="site-theme.css"> */
+:root{
+--bg:#f2f5f1;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;
+--teal:#0d7377;--teal-dark:#0b3d3f;--green:#059669;--green-bg:#ecfdf5;--green-line:#d1fae5;
+--amber:#f59e0b;--amber-bg:#fef3c7;--blue:#1e40af;--blue-bg:#eff6ff;--purple:#7c3aed;--red:#dc2626;
+--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Roboto,Arial,sans-serif;
+--radius:16px;--shadow:0 6px 20px rgba(0,0,0,.07);
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.7;margin:0}
+body.rtl{direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+.wrap.wide{max-width:1080px}
+.hero{color:#fff;padding:34px 0 26px}
+.hero h1{font-size:24px;margin:0}
+.hero p{opacity:.93;font-size:14px;margin-top:6px}
+.hero.teal{background:linear-gradient(135deg,#0b3d3f,#0d7377 55%,#059669)}
+.hero.green{background:linear-gradient(135deg,#1e3a8a,#059669 70%,#10b981)}
+.hero.purple{background:linear-gradient(135deg,#7c3aed,#0d7377 70%,#059669)}
+.hero.navy{background:linear-gradient(135deg,#095c5f,#0d7377 55%,#059669)}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+.btn{display:inline-block;border:none;cursor:pointer;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:bold;font-family:inherit;text-decoration:none}
+.btn-green{background:var(--green);color:#fff}
+.btn-amber{background:var(--amber);color:#1f2937}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-ghost{background:#fff;border:2px solid var(--line);color:#374151}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{border:1.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:7px 18px;font-size:13.5px;font-weight:bold;cursor:pointer;font-family:inherit}
+.pill.on{background:#fff;color:#065f46}
+.tag{display:inline-block;border-radius:999px;padding:2px 12px;font-size:12px;font-weight:bold}
+.backline{text-align:center;padding:14px 0 40px}
+.backline a{color:var(--green);font-weight:bold;text-decoration:none;font-size:15px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr}}
+input,select,textarea{font-family:inherit;font-size:14px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
