@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بررسی قوانین Startup Zone در COP31 🌍</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,"Segoe UI",Arial,sans-serif;background:#f2f5f1;color:#1f2937;line-height:1.9}
+.wrap{max-width:920px;margin:0 auto;padding:0 16px 40px}
+.hero{background:linear-gradient(135deg,#1e3a8a,#059669 70%,#10b981);color:#fff;padding:32px 0 28px;margin-bottom:20px}
+.hero h1{font-size:24px}
+.hero p{opacity:.93;font-size:14px;margin-top:6px;max-width:700px}
+.badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.45);padding:4px 14px;border-radius:999px;font-size:12px;font-weight:bold;margin-bottom:10px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 6px 20px rgba(0,0,0,.07);margin-bottom:18px}
+.card h2{font-size:18px;margin-bottom:6px}
+.card .hint{font-size:13px;color:#6b7280;margin-bottom:14px}
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:700px){.rules-grid{grid-template-columns:1fr}}
+.rule{background:#f8faf8;border:1.5px solid #d1fae5;border-radius:12px;padding:12px 14px;font-size:13.5px}
+.rule b{color:#065f46}
+.themes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+@media(max-width:700px){.themes{grid-template-columns:1fr}}
+.theme{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:8px 12px;font-size:12.5px}
+.theme b{color:#1e40af}
+.q{border:2px solid #e5e7eb;border-radius:14px;padding:14px 16px;margin-bottom:12px;transition:.2s}
+.q.done-yes{border-color:#34d399;background:#f0fdf9}
+.q.done-no{border-color:#f87171;background:#fef9f9}
+.q.done-unsure{border-color:#fbbf24;background:#fffdf5}
+.q.crit{border-right:6px solid #dc2626}
+.q-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:4px}
+.q-num{background:#065f46;color:#fff;font-weight:bold;min-width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.q h3{font-size:15px}
+.q .basis{font-size:12px;color:#6b7280;background:#f3f4f6;border-radius:8px;padding:6px 10px;margin:8px 0}
+.q select{width:100%;border:2px solid #d1d5db;border-radius:10px;padding:10px;font-size:14px;font-family:inherit;margin-top:6px}
+.ans-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.ans{border:2px solid #d1d5db;background:#fff;border-radius:999px;padding:8px 20px;font-size:14px;font-weight:bold;cursor:pointer;font-family:inherit}
+.ans:hover{border-color:#059669}
+.ans.on-yes{background:#059669;border-color:#059669;color:#fff}
+.ans.on-no{background:#dc2626;border-color:#dc2626;color:#fff}
+.ans.on-unsure{background:#d97706;border-color:#d97706;color:#fff}
+.progress{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0 4px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(-90deg,#059669,#34d399);transition:.3s}
+#verdict{border-radius:14px;padding:18px;margin-top:14px;font-size:14px;display:none}
+#verdict.show{display:block}
+#verdict.fail{background:#fef2f2;border:2px solid #f87171}
+#verdict.warn{background:#fffbeb;border:2px solid #fbbf24}
+#verdict.pass{background:#f0fdf4;border:2px solid #34d399}
+#verdict h3{font-size:17px;margin-bottom:8px}
+#verdict ul{margin:8px 18px 0 0;font-size:13.5px}
+#verdict li{margin-bottom:6px}
+.redirect{background:#eff6ff;border:1.5px solid #93c5fd;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:13.5px}
+.redirect b{color:#1e40af}
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;border-radius:10px;padding:11px 18px;font-size:14px;font-weight:bold;font-family:inherit;text-decoration:none}
+.btn-green{background:#059669;color:#fff}.btn-green:hover{background:#047857}
+.btn-blue{background:#1e40af;color:#fff}.btn-blue:hover{background:#1e3a8a}
+.btn-ghost{background:#fff;border:2px solid #d1d5db;color:#374151}.btn-ghost:hover{border-color:#059669}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.contacts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:700px){.contacts{grid-template-columns:1fr}}
+.contact{background:#065f46;color:#fff;border-radius:12px;padding:14px;font-size:13px}
+.contact.blue{background:#1e3a8a}
+.contact b{display:block;font-size:14px;margin-bottom:4px}
+.contact a{color:#a7f3d0}
+.sources{font-size:12px;color:#6b7280;margin-top:14px}
+.sources a{color:#059669}
+footer{text-align:center;color:#9ca3af;font-size:12px;margin-top:20px}
+@media print{.btn-row,.ans-btns{display:none!important}body{background:#fff}.card{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="hero"><div class="wrap">
+  <div class="badge">🌍 COP31 • ANTALYA • 9–20 NOVEMBER 2026</div>
+  <h1>✅ بررسی قوانین Startup Zone (بخش استارتاپ Green Zone)</h1>
+  <p>آیا واجد شرایط بخش استارتاپ نمایشگاه COP31 هستید؟ قوانین رسمی را بخوانید، به ۷ سؤال جواب بدهید و نتیجه دقیق را بگیرید. (ویژه بررسی وضعیت موسسه یتیم هم دکمه آماده دارد 👇)</p>
+</div></div>
+
+<div class="wrap">
+  <div class="card">
+    <h2>📜 قوانین رسمی Startup Zone (خلاصه)</h2>
+    <p class="hint">بر اساس پورتال رسمی startupzone.cop31.center — تاریخ، مکان و شرایط:</p>
+    <div class="rules-grid">
+      <div class="rule">🏠 <b>فقط برای استارتاپ‌های اقلیمی:</b> خانه اختصاصی climate startups داخل Green Zone (۳٬۶۰۰ مترمربع، ورودی اصلی، زیر برج COP) — نه غرفه معمولی، نه سایدایونت.</div>
+      <div class="rule">🛤️ <b>دو مسیر:</b> غرفه‌دار (Exhibitor: میز، ۵ یا ۱۵ مترمربع) یا حامی (Sponsor) — به‌علاوه مسیر جدا برای سرمایه‌گذار.</div>
+      <div class="rule">👶 <b>قانون سن شرکت:</b> میز (desk stand) مخصوص استارتاپ‌های نوپای <b>۰ تا ۳ ساله</b> است.</div>
+      <div class="rule">📝 <b>ثبت ≠ پذیرش قطعی:</b> درخواست شما فقط «ابراز علاقه» است؛ نتیجه بررسی از طریق <b>startup@cop31.tr</b> اعلام می‌شود.</div>
+      <div class="rule">💰 <b>سرمایه‌گذار واقعی:</b> لانج سرمایه‌گذار + جلسات B2B از قبل برنامه‌ریزی می‌شود — باید چیزی برای ارائه داشته باشید.</div>
+      <div class="rule">📅 <b>حضوری و ۱۱ روزه:</b> ۹ تا ۲۰ نوامبر ۲۰۲۶، آنتالیا — تیم شما باید آنجا باشد.</div>
+    </div>
+    <h2 style="margin-top:16px;font-size:16px">🎯 ۱۱ تم اولویت‌دار (راهکار شما باید به یکی بخورد)</h2>
+    <div class="themes">
+      <div class="theme"><b>۱. پسماند صفر</b> — اقتصاد چرخه‌ای و مدیریت پسماند</div>
+      <div class="theme"><b>۲. اقیانوس‌ها و دریاها</b> — اکوسیستم دریایی و کربن آبی</div>
+      <div class="theme"><b>۳. امنیت غذایی</b> — نظام‌های غذایی پایدار و تاب‌آور</div>
+      <div class="theme"><b>۴. شهرهای تاب‌آور اقلیمی</b> — شهر قابل زندگی برای همه</div>
+      <div class="theme"><b>۵. پل اجرای اقلیمی</b> — تبدیل تعهد به اجرا و سرمایه‌گذاری</div>
+      <div class="theme"><b>۶. جوانان و آموزش</b> — جوانان، معماران راهکار اقلیمی</div>
+      <div class="theme"><b>۷. صنعتی‌سازی سبز</b> — صنعت کم‌کربن و گذار عادلانه</div>
+      <div class="theme"><b>۸. گذار انرژی پاک</b> — انرژی پاک، امن و ارزان برای همه</div>
+      <div class="theme"><b>۹. هم‌افزایی ریو</b> — اقلیم + تنوع زیستی + بیابان‌زایی</div>
+      <div class="theme"><b>۱۰. سلامت تاب‌آور</b> — نظام سلامت کم‌کربن و عادلانه</div>
+      <div class="theme"><b>۱۱. فناوری سبز</b> — راهکارهای دیجیتال و عمیق اقلیمی (میان‌برش همه تم‌ها)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧪 تست واجد شرایط بودن — ۷ سؤال</h2>
+    <p class="hint">به هر سؤال جواب بدهید؛ نتیجه به‌صورت زنده پایین صفحه حساب می‌شود. سؤال‌های ۱ و ۲ «حیاتی»‌اند (خط قرمز ❌).</p>
+    <div class="progress"><i id="bar"></i></div>
+    <div style="font-size:13px;color:#6b7280;margin-bottom:12px">پاسخ داده‌شده: <b id="cnt">۰ از ۷</b></div>
+    <div id="questions"></div>
+    <div id="verdict"></div>
+    <div class="btn-row">
+      <button class="btn btn-blue" onclick="demoNGO()">🧸 نتیجه موسسه یتیم (Yetim Vakfı) را نشان بده</button>
+      <button class="btn btn-ghost" onclick="resetAll()">↺ شروع مجدد</button>
+      <button class="btn btn-ghost" onclick="window.print()">🖨️ چاپ نتیجه</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📞 تماس‌های رسمی</h2>
+    <div class="contacts" style="margin-top:10px">
+      <div class="contact"><b>🚀 Startup Zone (استارتاپ‌ها)</b>پورتال: <a href="https://startupzone.cop31.center/" target="_blank" rel="noopener">startupzone.cop31.center</a><br>ایمیل: <a href="mailto:startup@cop31.tr">startup@cop31.tr</a></div>
+      <div class="contact blue"><b>🤝 Climate Supporter (NGOها و سازمان‌ها)</b>پورتال: <a href="https://cop31.tr/green-zone" target="_blank" rel="noopener">cop31.tr/green-zone</a><br>ایمیل: <a href="mailto:greenzone@cop31.tr">greenzone@cop31.tr</a></div>
+    </div>
+    <div class="sources">منابع: <a href="https://startupzone.cop31.center/">پورتال رسمی Startup Zone</a> • <a href="https://cop31.tr/green-zone">پورتال Green Zone</a> • <a href="https://unfccc.int/cop31">UNFCCC COP31</a> — ⚠️ این ابزار راهنماست و جایگزین بررسی رسمی نیست؛ نتیجه نهایی با تیم COP31 است.</div>
+  </div>
+  <footer>COP31 Startup Zone Rules Check • فارسی • ۲۵ سپتامبر ۲۰۲۶ 💛🌍</footer>
+</div>
+
+<script>
+const FA=n=>Number(n).toLocaleString('fa-IR');
+const THEMES=['پسماند صفر','اقیانوس‌ها و دریاها','امنیت غذایی','شهرهای تاب‌آور اقلیمی','پل اجرای اقلیمی','جوانان و آموزش','صنعتی‌سازی سبز','گذار انرژی پاک','هم‌افزایی ریو','سلامت تاب‌آور','فناوری سبز (میان‌برش)'];
+const QUESTIONS=[
+ {id:'q1',crit:true,title:'آیا متقاضی یک استارتاپ / شرکت نوپای خصوصی است؟ (نه NGO، دانشگاه یا نهاد دولتی)',basis:'📌 مبنای رسمی: Startup Zone «خانه استارتاپ‌های اقلیمی» است.',
+  act:'شما در مسیر اشتباهید! NGOها و سازمان‌ها باید از مسیر Climate Supporter اقدام کنند: greenzone@cop31.tr'},
+ {id:'q2',crit:true,type:'theme',title:'راهکار شما به کدام تم اولویت‌دار COP31 می‌خورد؟',basis:'📌 مبنای رسمی: راهکار باید به اقدام اقلیمی کمک کند (۱۱ تم بالا).',
+  act:'اگر راهکارتان واقعاً اقلیمی نیست، Startup Zone مناسب شما نیست — مسیر Sponsor یا Climate Supporter را بررسی کنید.'},
+ {id:'q3',title:'آیا شرکت شما نوپاست (حدود ۰ تا ۳ سال)؟',basis:'📌 مبنای رسمی: میز (desk stand) مخصوص استارتاپ‌های ۰ تا ۳ ساله است.',
+  act:'ایرادی ندارد — برای شرکت‌های بزرگ‌تر، فضای ۵ یا ۱۵ متری و مسیر Sponsor را بررسی کنید.'},
+ {id:'q4',title:'آیا محصول، دمو یا پایلوت قابل نمایش به بازدیدکننده و سرمایه‌گذار دارید؟',basis:'📌 در Startup Zone با سرمایه‌گذار و هیئت‌ها روبه‌رو می‌شوید؛ باید چیزی برای «نشان دادن» داشته باشید.',
+  act:'قبل از ثبت درخواست، یک دمو / پایلوت / ویدیوی محصول آماده کنید.'},
+ {id:'q5',title:'آیا تیم شما می‌تواند ۹ تا ۲۰ نوامبر ۲۰۲۶ در آنتالیا حضور داشته باشد؟',basis:'📌 رویداد ۱۱ روزه و حضوری است (Green Zone، ورودی اصلی، زیر برج COP).',
+  act:'حضور تیم در آنتالیا لازم است — برنامه سفر و اقامت را از حالا بچینید.'},
+ {id:'q6',title:'آیا درخواست رسمی را در پورتال ثبت کرده‌اید؟',basis:'📌 ثبت درخواست فقط «ابراز علاقه» است (رزرو قطعی نیست)؛ نتیجه از startup@cop31.tr اعلام می‌شود.',
+  act:'همین حالا در startupzone.cop31.center ثبت کنید و ایمیل‌ها را دنبال کنید.'},
+ {id:'q7',title:'آیا ارائه و مدارک به زبان انگلیسی آماده است؟',basis:'📌 مخاطبان بین‌المللی‌اند؛ ارائه انگلیسی شانس پذیرش را بالا می‌برد.',
+  act:'یک پیچ‌دک (معرفی) یک‌صفحه‌ای انگلیسی آماده کنید.'}
+];
+const state={};
+function render(){
+  const box=document.getElementById('questions');box.innerHTML='';
+  QUESTIONS.forEach((q,i)=>{
+    const v=state[q.id];
+    const div=document.createElement('div');
+    div.className='q'+(q.crit?' crit':'')+(v==='yes'?' done-yes':v==='no'?' done-no':v==='unsure'?' done-unsure':'');
+    let inner=`<div class="q-head"><div class="q-num">${FA(i+1)}</div><h3>${q.title}${q.crit?' <span style="color:#dc2626;font-size:12px">🔴 حیاتی</span>':''}</h3></div><div class="basis">${q.basis}</div>`;
+    if(q.type==='theme'){
+      inner+=`<select onchange="setTheme(this.value)"><option value="">— انتخاب کنید —</option>${THEMES.map(t=>`<option value="yes" ${v==='yes'&&state.q2theme===t?'selected':''}>${t}</option>`).join('')}<option value="unsure" ${v==='unsure'?'selected':''}>نمی‌دانم / مطمئن نیستم</option><option value="no" ${v==='no'?'selected':''}>هیچ‌کدام — راهکار ما اقلیمی نیست</option></select>`;
+    }else{
+      inner+=`<div class="ans-btns"><button class="ans ${v==='yes'?'on-yes':''}" onclick="setAns('${q.id}','yes')">✅ بله</button><button class="ans ${v==='no'?'on-no':''}" onclick="setAns('${q.id}','no')">❌ خیر</button><button class="ans ${v==='unsure'?'on-unsure':''}" onclick="setAns('${q.id}','unsure')">❓ نمی‌دانم</button></div>`;
+    }
+    div.innerHTML=inner;box.appendChild(div);
+  });
+  const n=Object.keys(state).length;
+  document.getElementById('bar').style.width=(n/QUESTIONS.length*100)+'%';
+  document.getElementById('cnt').textContent=FA(n)+' از '+FA(QUESTIONS.length);
+  renderVerdict();
+}
+function setAns(id,v){state[id]=v;render();}
+function setTheme(v){if(!v){delete state.q2;delete state.q2theme;}else{state.q2=v;const s=document.querySelector('#questions select');if(s&&v==='yes')state.q2theme=s.options[s.selectedIndex].text;}render();}
+function renderVerdict(){
+  const el=document.getElementById('verdict');
+  const n=Object.keys(state).length;
+  if(!n){el.className='';el.innerHTML='';return;}
+  let html='',cls='show ';
+  if(state.q1==='no'){
+    cls+='fail';
+    html=`<h3>❌ واجد شرایط Startup Zone نیستید</h3><p><b>دلیل (خط قرمز ۱):</b> متقاضی استارتاپ نیست. Startup Zone طبق قانون رسمی فقط برای <b>شرکت‌های نوپای اقلیمی</b> است و NGO، دانشگاه و نهاد دولتی در این بخش پذیرفته نمی‌شوند.</p>
+    <div class="redirect">🤝 <b>مسیر درست شما: Climate Supporter در Green Zone</b><br>سازمان‌ها و NGOها باید از این مسیر اقدام کنند:<br>📧 <b>greenzone@cop31.tr</b> و <b>sponsorship@cop31.tr</b> — 🌐 <b>cop31.tr/green-zone</b><br>کلید پذیرش: نشان دادن یک پروژه واقعیِ مرتبط با اقلیم + روایت «کودکان و عدالت اقلیمی».</div>`;
+  }else if(state.q2==='no'){
+    cls+='fail';
+    html=`<h3>❌ ارتباط اقلیمی کافی نیست</h3><p><b>دلیل (خط قرمز ۲):</b> راهکار شما به هیچ‌یک از ۱۱ تم اقلیمی نمی‌خورد. بدون ارتباط مستقیم با اقدام اقلیمی، درخواست رد می‌شود.</p>
+    <div class="redirect">💡 <b>چه کنید؟</b> اگر بخش کوچکی از کارتان اقلیمی است (مثلاً دیجیتال/داده)، تم میان‌برش <b>«فناوری سبز»</b> را بررسی کنید؛ وگرنه مسیر <b>Sponsor</b> یا <b>Climate Supporter</b> مناسب‌تر است.</div>`;
+  }else{
+    const allYes=QUESTIONS.every(q=>state[q.id]==='yes');
+    if(allYes){
+      cls+='pass';
+      html=`<h3>✅ تبریک! آماده اقدامید</h3><p>همه شرایط را دارید. قدم‌های بعدی:</p><ul><li>درخواست Exhibitor را در <b>startupzone.cop31.center</b> ثبت کنید (میز / ۵ / ۱۵ مترمربع).</li><li>ایمیل تأیید را از <b>startup@cop31.tr</b> دنبال کنید (ثبت = رزرو قطعی نیست).</li><li>جلسات سرمایه‌گذار (investor lounge) را از قبل رزرو کنید.</li><li>تیم را در <b>cop31.tr/register-to-visit</b> برای QR ورود ثبت کنید.</li></ul>`;
+    }else{
+      cls+='warn';
+      const items=QUESTIONS.filter(q=>state[q.id]!=='yes').map(q=>{
+        const s=state[q.id];
+        const lbl=q.id==='q2'?(s==='unsure'?'تم راهکار مشخص نیست':s?'':'تم انتخاب نشده'):(s==='no'?'خیر':s==='unsure'?'نامشخص':'بی‌پاسخ');
+        return `<li><b>${q.title}</b> (${lbl})<br>👉 ${q.act}</li>`;
+      }).join('');
+      html=`<h3>⚠️ در مسیرید، ولی این موارد را اصلاح کنید</h3><p>خط قرمزها رد نشده، اما برای پذیرش قوی باید موارد زیر را کامل کنید:</p><ul>${items}</ul>`;
+    }
+  }
+  el.className=cls;el.innerHTML=html;
+}
+function demoNGO(){
+  Object.assign(state,{q1:'no',q2:'unsure',q3:'no',q4:'yes',q5:'yes',q6:'no',q7:'yes'});
+  delete state.q2theme;render();
+  document.getElementById('verdict').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetAll(){Object.keys(state).forEach(k=>delete state[k]);render();}
+render();
+</script>
+</body>
+</html>

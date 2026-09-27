@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yetim Vakfı • Fundraising Tracker & COP31 Green Zone</title>
+<style>
+:root{
+  --teal:#0d7377; --teal-dark:#095c5f; --teal-light:#e0f2f2;
+  --orange:#f59e0b; --orange-dark:#d97706; --orange-light:#fef3c7;
+  --bg:#faf7f1; --card:#ffffff; --ink:#1f2937; --muted:#6b7280; --line:#e9e2d5;
+  --green:#16a34a; --red:#dc2626; --purple:#7c3aed;
+  --radius:16px; --shadow:0 6px 24px rgba(13,115,119,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+a{color:var(--teal)}
+/* ---------- Header ---------- */
+.topbar{background:linear-gradient(135deg,#095c5f 0%,#0d7377 55%,#14919b 100%);color:#fff;padding:18px 0 26px;position:relative;overflow:hidden}
+.topbar::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
+.topbar::before{content:"";position:absolute;right:120px;bottom:-90px;width:180px;height:180px;border-radius:50%;background:rgba(245,158,11,.18)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:58px;height:58px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 14px rgba(0,0,0,.2);flex-shrink:0}
+.brand h1{font-size:22px;letter-spacing:.2px}
+.brand p{opacity:.9;font-size:13.5px}
+.brand .spacer{flex:1}
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;transition:.15s;text-decoration:none}
+.btn-sm{padding:7px 12px;font-size:13px;border-radius:8px}
+.btn-orange{background:var(--orange);color:#3b2f04}.btn-orange:hover{background:#fbbf24}
+.btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-dark)}
+.btn-green{background:#059669;color:#fff}.btn-green:hover{background:#047857}
+.btn-white{background:#fff;color:var(--teal-dark)}.btn-white:hover{background:#f0fdfa}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}.btn-ghost:hover{background:rgba(255,255,255,.15)}
+.btn-outline{background:#fff;border:1.5px solid var(--line);color:var(--ink)}.btn-outline:hover{border-color:var(--teal);color:var(--teal-dark)}
+.btn-danger{background:#fee2e2;color:#991b1b}.btn-danger:hover{background:#fecaca}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.lang-toggle{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer;font-size:13px}
+.lang-toggle:hover{background:rgba(255,255,255,.28)}
+.links-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.links-row a{color:#fff;text-decoration:none;font-size:12.5px;background:rgba(255,255,255,.14);padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.25)}
+.links-row a:hover{background:rgba(255,255,255,.28)}
+/* ---------- Stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:-26px 0 18px;position:relative;z-index:2}
+.stat{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 16px 14px;border-top:4px solid var(--teal)}
+.stat:nth-child(2){border-color:var(--orange)}.stat:nth-child(3){border-color:var(--green)}
+.stat:nth-child(4){border-color:var(--purple)}.stat:nth-child(5){border-color:#0284c7}
+.stat .lbl{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.stat .val{font-size:22px;font-weight:800;margin:4px 0 2px}
+.stat .sub{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+/* ---------- Goal banner ---------- */
+.goal-banner{background:linear-gradient(135deg,#fff7e6,#ffedd5);border:2px solid #fcd34d;border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;box-shadow:var(--shadow)}
+.goal-banner h2{font-size:17px;margin-bottom:4px}
+.goal-banner p{font-size:13.5px;color:#92400e;margin-bottom:12px}
+.progress{height:16px;background:#e7e0d0;border-radius:999px;overflow:hidden}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#14b8a6);border-radius:999px;transition:width .6s ease}
+.goal-meta{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-top:8px;color:#78350f}
+/* ---------- Sections ---------- */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px}
+.card h2{font-size:17px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.card .hint{font-size:13px;color:var(--muted);margin-bottom:14px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+/* ---------- Campaigns ---------- */
+.camps{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.camp{border:1.5px solid var(--line);border-radius:14px;padding:15px;background:#fffdf8;transition:.15s;position:relative}
+.camp:hover{box-shadow:0 8px 22px rgba(0,0,0,.08);transform:translateY(-2px)}
+.camp .chead{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.camp .ico{font-size:30px;width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--teal-light);flex-shrink:0}
+.camp h3{font-size:14.5px;line-height:1.3}
+.camp .cdesc{font-size:12px;color:var(--muted);margin:6px 0 10px;min-height:34px}
+.camp .nums{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:6px}
+.camp .nums span:last-child{color:var(--teal-dark)}
+.camp .progress{height:10px}
+.camp .cbtns{display:flex;gap:6px;margin-top:10px}
+.camp .cbtns .btn{flex:1;justify-content:center}
+.icon-btn{border:none;background:#f3f4f6;border-radius:8px;padding:7px 10px;cursor:pointer;font-size:14px}
+.icon-btn:hover{background:#e5e7eb}
+/* ---------- Charts ---------- */
+.charts{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
+@media(max-width:900px){.charts{grid-template-columns:1fr}}
+.chart-box{border:1.5px solid var(--line);border-radius:14px;padding:15px;background:#fffdf8}
+.chart-box h3{font-size:14px;margin-bottom:10px}
+.legend{font-size:12px;margin-top:8px;display:flex;flex-direction:column;gap:4px;max-height:150px;overflow:auto}
+.legend div{display:flex;align-items:center;gap:7px}
+.dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.toplist{list-style:none;font-size:13px}
+.toplist li{display:flex;justify-content:space-between;gap:8px;padding:7px 4px;border-bottom:1px dashed var(--line)}
+.toplist li:last-child{border:none}
+.toplist b{color:var(--teal-dark)}
+.medal{margin-right:6px}
+/* ---------- Table ---------- */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.filters input,.filters select{border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;background:#fff;font-family:inherit}
+.filters input:focus,.filters select:focus{outline:none;border-color:var(--teal)}
+.table-wrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px}
+th{background:var(--teal-dark);color:#fff;text-align:left;padding:11px 12px;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid #f0ece1}
+tr:nth-child(even) td{background:#fffdf6}
+tr:hover td{background:#f0fdfa}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.pill.one-time{background:#e0f2fe;color:#075985}.pill.monthly{background:#dcfce7;color:#166534}
+.pill.zakat{background:#ede9fe;color:#5b21b6}.pill.sadaqah{background:#fef3c7;color:#92400e}
+.pill.corporate{background:#fce7f3;color:#9d174d}.pill.fidyah{background:#ffedd5;color:#9a3412}
+.amt{font-weight:800;white-space:nowrap}
+.empty{text-align:center;padding:26px;color:var(--muted)}
+/* ---------- Rates / impact ---------- */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.two-col{grid-template-columns:1fr}}
+.rate-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;font-size:14px}
+.rate-row label{width:150px;font-weight:600}
+.rate-row input{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;width:120px;font-family:inherit}
+.impact{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #6ee7b7;border-radius:14px;padding:16px;text-align:center}
+.impact .big{font-size:38px;font-weight:900;color:#065f46}
+.impact p{font-size:13.5px;color:#065f46}
+/* ---------- Modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:18px;padding:24px;width:100%;max-width:480px;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h2{font-size:18px;margin-bottom:14px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* ---------- Tabs + COP31 Green Zone ---------- */
+.tab-nav{display:flex;gap:10px;margin:18px 0;flex-wrap:wrap}
+.tab{flex:1;min-width:230px;border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 16px;font-size:15px;font-weight:800;cursor:pointer;color:var(--muted);transition:.15s;text-align:center;font-family:inherit}
+.tab:hover{border-color:var(--teal);color:var(--teal-dark)}
+.tab.active{background:linear-gradient(135deg,#095c5f,#0d7377);color:#fff;border-color:var(--teal-dark);box-shadow:var(--shadow)}
+.tab small{display:block;font-weight:500;font-size:12px;opacity:.85;margin-top:2px}
+.event-banner{background:linear-gradient(135deg,#064e3b,#059669 60%,#34d399);color:#fff;border-radius:var(--radius);padding:24px;margin-bottom:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.event-banner::after{content:"🌍";position:absolute;right:14px;top:6px;font-size:90px;opacity:.18}
+.ev-badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);padding:5px 14px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:10px}
+.event-banner h2{font-size:20px;margin-bottom:6px;position:relative;z-index:1}
+.event-banner h2+p{font-size:14px;opacity:.95;max-width:660px;position:relative;z-index:1}
+.event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;position:relative;z-index:1}
+.event-grid>div{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.event-grid small{opacity:.9}
+@media(max-width:700px){.event-grid{grid-template-columns:1fr}}
+.ev-note{margin-top:12px;font-size:12.5px;background:rgba(0,0,0,.25);border-radius:10px;padding:9px 13px;position:relative;z-index:1}
+.stats.gz4{grid-template-columns:repeat(4,1fr);margin:0 0 18px}
+@media(max-width:900px){.stats.gz4{grid-template-columns:repeat(2,1fr)}}
+.field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:700px){.field-row3{grid-template-columns:1fr}.modal .field-row{grid-template-columns:1fr}}
+.reg-form{background:#fffdf8;border:1.5px solid var(--line);border-radius:14px;padding:18px}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:inline-flex;align-items:center;gap:7px;background:#f0fdfa;border:1.5px solid #99f6e4;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer}
+.checks label:hover{border-color:var(--teal)}
+.checks input{accent-color:var(--teal);width:15px;height:15px}
+.consent{display:flex;gap:10px;align-items:flex-start;background:#fefce8;border:1.5px solid #fde68a;border-radius:12px;padding:12px 14px;font-size:13px;margin:12px 0}
+.consent input{margin-top:3px;width:17px;height:17px;accent-color:var(--teal);flex-shrink:0}
+.badge{border:3px dashed #059669;border-radius:18px;padding:26px;text-align:center;background:linear-gradient(180deg,#ecfdf5,#fff)}
+.badge-head{font-size:15px;font-weight:800;color:#064e3b}
+.badge-code{font-size:32px;font-weight:900;letter-spacing:3px;color:#059669;margin:10px 0;background:#fff;display:inline-block;padding:8px 26px;border-radius:14px;border:2px solid #a7f3d0}
+.badge-table{max-width:460px;margin:12px auto;text-align:left;font-size:14px}
+.badge-table div{display:flex;justify-content:space-between;gap:10px;padding:7px 4px;border-bottom:1px dashed #a7f3d0}
+.badge-table div:last-child{border:none}
+.status-ok{background:#dcfce7;color:#166534;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.status-wait{background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.modal .btn-row{justify-content:flex-end;margin-top:16px}
+/* ---------- Toast / footer ---------- */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#111827;color:#fff;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:600;transition:.3s;z-index:99;opacity:0;max-width:92vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+footer{text-align:center;color:var(--muted);font-size:12.5px;padding:22px 10px 34px}
+/* ---------- Print ---------- */
+@media print{
+  .toolbar,.topbar .btn-row,.topbar .links-row,.lang-toggle,.modal-bg,#toast,.cbtns,.no-print,.tab-nav{display:none!important}
+  body{background:#fff}.card,.stat,.goal-banner,.event-banner{box-shadow:none;break-inside:avoid}
+  .stats{margin-top:0}.event-banner{color:#064e3b;background:#ecfdf5!important;border:2px solid #059669}
+  .event-banner h2+p,.event-grid>div,.ev-note{color:#064e3b}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">🧸</div>
+      <div>
+        <h1 id="t-title">Yetim Vakfı • Fundraising Tracker</h1>
+        <p id="t-subtitle">Yetim çocuklarımızın gülümsemesine vesile olun — bağış kampanyalarınızı tek panelden takip edin.</p>
+      </div>
+      <div class="spacer"></div>
+      <div class="btn-row">
+        <button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN 🇬🇧</button>
+        <a class="btn btn-orange btn-sm" href="https://bagis.yetimvakfi.org.tr/en/donate" target="_blank" rel="noopener">🤲 <span data-i18n="donate_now">Hemen Bağış Yap</span></a>
+      </div>
+    </div>
+    <div class="links-row">
+      <a href="https://yetimvakfi.org.tr/en" target="_blank" rel="noopener">🌐 yetimvakfi.org.tr</a>
+      <a href="https://play.google.com/store/apps/details?id=tr.org.yetimvakfi" target="_blank" rel="noopener">📱 Google Play</a>
+      <a href="https://apps.apple.com/app/yetim-vakf%C4%B1/id6745053470" target="_blank" rel="noopener">🍎 App Store</a>
+      <a href="https://yetimvakfi.org.tr/en/yetim-sponsorluk" target="_blank" rel="noopener">🧸 <span data-i18n="sponsor_link">Yetim Sponsorluğu (aylık 900 ₺)</span></a>
+      <a href="https://cop31.tr/green-zone" target="_blank" rel="noopener">🌍 COP31 Green Zone</a>
+      <a href="https://github.com/Websites-by-AI/" target="_blank" rel="noopener">💻 GitHub Project</a>
+      <a href="tel:+902129706060">📞 0212 970 60 60</a>
+      <a href="mailto:info@yetimvakfi.org.tr">✉️ info@yetimvakfi.org.tr</a>
+      <a href="https://yetimvakfi.org.tr/iletisim" target="_blank" rel="noopener">📍 Fatih / İstanbul</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="tab-nav no-print">
+    <button class="tab active" id="tabFund" onclick="showView('fund')">💛 <span data-i18n="tab_fund">Bağış Takibi</span><small data-i18n="tab_fund_sub">Fundraising Tracker</small></button>
+    <button class="tab" id="tabGreen" onclick="showView('green')">🌍 <span data-i18n="tab_green">COP31 Yeşil Alan Kaydı</span><small data-i18n="tab_green_sub">Green Zone • Antalya EXPO • 9–20 Nov 2026</small></button>
+  </div>
+
+  <div id="viewFund">
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="lbl" data-i18n="s_raised">Toplanan Bağış</div><div class="val" id="statRaised">—</div><div class="sub" id="statRaisedSub">—</div></div>
+    <div class="stat"><div class="lbl" data-i18n="s_goal">Genel Hedefe Ulaşım</div><div class="val" id="statPct">—</div><div class="sub" id="statGoal">—</div></div>
+    <div class="stat"><div class="lbl" data-i18n="s_count">Bağış Adedi</div><div class="val" id="statCount">—</div><div class="sub" id="statAvg">—</div></div>
+    <div class="stat"><div class="lbl" data-i18n="s_camps">Aktif Kampanya</div><div class="val" id="statCamps">—</div><div class="sub" id="statDonors">—</div></div>
+    <div class="stat"><div class="lbl" data-i18n="s_month">Bu Ay Toplanan</div><div class="val" id="statMonth">—</div><div class="sub" id="statMonthSub">—</div></div>
+  </div>
+
+  <!-- Goal banner -->
+  <div class="goal-banner">
+    <h2>🎯 <span data-i18n="goal_title">2026 Genel Bağış Hedefi</span></h2>
+    <p data-i18n="goal_desc">Tüm kampanyalarda toplanan bağışların genel hedefe oranı. Yetim Vakfı 2025'te 38 ülkede 3,6 milyon kişiye ulaştı — 2026'da hedef daha büyük!</p>
+    <div class="progress"><i id="goalBar" style="width:0%"></i></div>
+    <div class="goal-meta"><span id="goalLeft"></span><span id="goalRight"></span></div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button class="btn btn-teal" onclick="openDonationModal()">➕ <span data-i18n="add_donation">Bağış Ekle</span></button>
+    <button class="btn btn-outline" onclick="openCampaignModal()">📢 <span data-i18n="add_campaign">Kampanya Ekle</span></button>
+    <button class="btn btn-outline" onclick="exportCSV()">📥 CSV</button>
+    <button class="btn btn-outline" onclick="exportJSON()">💾 <span data-i18n="backup">Yedekle</span></button>
+    <button class="btn btn-outline" onclick="document.getElementById('importFile').click()">📤 <span data-i18n="restore">Geri Yükle</span></button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+    <button class="btn btn-outline" onclick="window.print()">🖨️ <span data-i18n="print">Rapor Yazdır</span></button>
+    <button class="btn btn-danger" onclick="resetData()">↺ <span data-i18n="reset">Örnek Veriye Dön</span></button>
+  </div>
+
+  <!-- Campaigns -->
+  <div class="card">
+    <h2>📢 <span data-i18n="campaigns">Bağış Kampanyaları</span></h2>
+    <p class="hint" data-i18n="campaigns_hint">Yetim Vakfı'nın gerçek kampanya başlıkları yüklendi. Hedefleri düzenleyebilir, yeni kampanya ekleyebilirsiniz.</p>
+    <div class="camps" id="campGrid"></div>
+  </div>
+
+  <!-- Charts -->
+  <div class="card">
+    <h2>📊 <span data-i18n="analytics">Analiz & Raporlar</span></h2>
+    <p class="hint" data-i18n="analytics_hint">Bağışların aylık dağılımı, kampanya payları ve en cömert bağışçılar.</p>
+    <div class="charts">
+      <div class="chart-box"><h3 data-i18n="monthly">📅 Son 6 Ay — Aylık Bağışlar (₺)</h3><div id="barChart"></div></div>
+      <div class="chart-box"><h3 data-i18n="bycamp">🍩 Kampanyalara Göre Dağılım</h3><div id="donutChart" style="text-align:center"></div><div class="legend" id="donutLegend"></div></div>
+      <div class="chart-box"><h3 data-i18n="topdonors">🏆 En Cömert Bağışçılar</h3><ul class="toplist" id="topDonors"></ul></div>
+    </div>
+  </div>
+
+  <!-- Donations -->
+  <div class="card">
+    <h2>🧾 <span data-i18n="donations">Bağış Kayıtları</span></h2>
+    <p class="hint" data-i18n="donations_hint">Tüm bağışlar bu cihazda güvenle saklanır (çevrimdışı çalışır). CSV olarak dışa aktarabilirsiniz.</p>
+    <div class="filters">
+      <input type="text" id="fSearch" placeholder="🔍 Bağışçı / not ara..." oninput="renderTable()" style="flex:1;min-width:160px">
+      <select id="fCamp" onchange="renderTable()"></select>
+      <select id="fType" onchange="renderTable()"></select>
+      <select id="fSort" onchange="renderTable()">
+        <option value="date-desc">📅 Yeniden eskiye</option>
+        <option value="date-asc">📅 Eskiden yeniye</option>
+        <option value="amt-desc">💰 Tutar (yüksek→düşük)</option>
+        <option value="amt-asc">💰 Tutar (düşük→yüksek)</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th data-i18n="th_date">Tarih</th><th data-i18n="th_donor">Bağışçı</th><th data-i18n="th_camp">Kampanya</th>
+          <th data-i18n="th_type">Tür</th><th data-i18n="th_amt">Tutar</th><th data-i18n="th_note">Not</th><th class="no-print">⚙️</th>
+        </tr></thead>
+        <tbody id="donTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Rates + Impact -->
+  <div class="two-col">
+    <div class="card">
+      <h2>💱 <span data-i18n="fx">Döviz Kurları (₺ karşılığı)</span></h2>
+      <p class="hint" data-i18n="fx_hint">USD/EUR bağışlar bu kurlarla TL'ye çevrilir. Güncel kurları girin.</p>
+      <div class="rate-row"><label>💵 1 USD =</label><input type="number" id="rateUSD" step="0.01" min="0" onchange="saveRates()"> ₺</div>
+      <div class="rate-row"><label>💶 1 EUR =</label><input type="number" id="rateEUR" step="0.01" min="0" onchange="saveRates()"> ₺</div>
+      <p class="hint" style="margin:8px 0 0">ℹ️ <span data-i18n="fx_note">Varsayılan kurlar yaklaşıktır — lütfen güncel TCMB kurunu girin.</span></p>
+    </div>
+    <div class="card">
+      <h2>💚 <span data-i18n="impact">Etki Hesaplayıcı</span></h2>
+      <p class="hint" data-i18n="impact_hint">Aylık 900 ₺ = 1 yetime 1 ay sponsorluk • Yıllık 10.800 ₺ = 1 yetime 1 yıl sponsorluk</p>
+      <div class="impact">
+        <div style="font-size:30px">🧸🎓🍲</div>
+        <div class="big" id="orphanCount">0</div>
+        <p><b data-i18n="impact_txt">yetim, sponsorluk kampanyasıyla 1 yıl boyunca desteklenebilir</b></p>
+      </div>
+    </div>
+  </div>
+  </div><!-- /viewFund -->
+
+  <div id="viewGreen" style="display:none">
+    <!-- Event banner -->
+    <div class="event-banner">
+      <div class="ev-badge">🌍 COP31 • ANTALYA • TÜRKİYE</div>
+      <h2 data-i18n="gz_title">COP31 Yeşil Alan (Green Zone) — Stand Kayıt Masası</h2>
+      <p data-i18n="gz_desc">Yetim Vakfı 9–20 Kasım 2026'da Antalya EXPO Center'da! Standımızı ziyaret edecek misafirler, gönüllüler ve paydaşlar için kayıt ve giriş (check-in) paneli.</p>
+      <div class="event-grid">
+        <div>📅 <b>9 – 20 Nov 2026</b><br><small data-i18n="gz_closed">11–12 Kasım: Liderler Zirvesi (programı resmi siteden kontrol edin)</small></div>
+        <div>📍 <b>Antalya EXPO Center</b><br><small>Solak Alanya Yolu Serik Cd., Aksu – Antalya</small></div>
+        <div>🎟️ <b data-i18n="gz_free">Ücretsiz giriş</b><br><small data-i18n="gz_qr">Kayıt + ziyaretçi QR kodu gerekli</small></div>
+      </div>
+      <div class="btn-row" style="margin-top:14px;position:relative;z-index:1">
+        <a class="btn btn-orange btn-sm" href="https://cop31.tr/register-to-visit" target="_blank" rel="noopener">🎟️ <span data-i18n="gz_official_visit">Resmi Ziyaret Kaydı (QR)</span></a>
+        <a class="btn btn-white btn-sm" href="https://cop31.tr/green-zone" target="_blank" rel="noopener">🌍 Green Zone Portal</a>
+        <a class="btn btn-ghost btn-sm" href="https://unfccc.int/cop31" target="_blank" rel="noopener">🇺🇳 UNFCCC COP31</a>
+      </div>
+      <div class="ev-note">⚠️ <span data-i18n="gz_note">Bu form Yetim Vakfı standı içindir ve resmi giriş QR kodunun yerine geçmez — giriş QR kodunuzu cop31.tr/register-to-visit adresinden alın.</span></div>
+    </div>
+
+    <!-- Green stats -->
+    <div class="stats gz4">
+      <div class="stat"><div class="lbl" data-i18n="gz_s_reg">Kayıtlı Kişi</div><div class="val" id="gzStatReg">—</div><div class="sub" id="gzStatRegSub">—</div></div>
+      <div class="stat"><div class="lbl" data-i18n="gz_s_in">Giriş Yapan</div><div class="val" id="gzStatIn">—</div><div class="sub">✔ check-in</div></div>
+      <div class="stat"><div class="lbl" data-i18n="gz_s_vol">Gönüllü</div><div class="val" id="gzStatVol">—</div><div class="sub">🙋</div></div>
+      <div class="stat"><div class="lbl" data-i18n="gz_s_pledge">Bağış Sözü (₺)</div><div class="val" id="gzStatPledge">—</div><div class="sub">💛</div></div>
+    </div>
+
+    <!-- Registration form -->
+    <div class="card">
+      <h2>📝 <span data-i18n="gz_form_title">Ziyaretçi / Gönüllü Kayıt Formu</span></h2>
+      <p class="hint" data-i18n="gz_form_hint">Formu doldurun, size özel onay kodunuzu alın. Stand girişinde kodunuzu gösterin.</p>
+      <div class="reg-form" id="gzForm">
+        <div class="field-row3">
+          <div class="field"><label data-i18n="f_name">Ad Soyad *</label><input id="gzName" placeholder="Ad Soyad / Full name"></div>
+          <div class="field"><label data-i18n="f_email">E-posta</label><input id="gzEmail" type="email" placeholder="ornek@e-posta.com"></div>
+          <div class="field"><label data-i18n="f_phone">Telefon</label><input id="gzPhone" placeholder="+90 ..."></div>
+        </div>
+        <div class="field-row3">
+          <div class="field"><label data-i18n="f_org">Kurum / Okul</label><input id="gzOrg" placeholder="NGO / University / —"></div>
+          <div class="field"><label data-i18n="f_city">Şehir / Ülke</label><input id="gzCity" placeholder="Antalya / Türkiye"></div>
+          <div class="field"><label data-i18n="f_ptype">Katılımcı Türü *</label><select id="gzPtype"></select></div>
+        </div>
+        <div class="field-row3">
+          <div class="field"><label data-i18n="f_vdate">Ziyaret Günü *</label><select id="gzVdate"></select></div>
+          <div class="field"><label data-i18n="f_pledge">Bağış Sözü (opsiyonel)</label><input id="gzPledge" type="number" min="0" step="any" placeholder="0"></div>
+          <div class="field"><label data-i18n="f_pcur">Birim</label><select id="gzPcur"><option>TRY</option><option>USD</option><option>EUR</option></select></div>
+        </div>
+        <div class="field"><label data-i18n="f_pcamp">Söz Verilen Kampanya</label><select id="gzPcamp"></select></div>
+        <div class="field"><label data-i18n="f_interests">İlgilendiğiniz Kampanyalar</label><div class="checks" id="gzInterests"></div></div>
+        <div class="field"><label data-i18n="f_note">Not</label><input id="gzNote" placeholder="..."></div>
+        <label class="consent"><input type="checkbox" id="gzConsent"><span data-i18n="f_consent">KVKK kapsamında bilgilerimin Yetim Vakfı tarafından saklanmasını kabul ediyorum. *</span></label>
+        <button class="btn btn-green" onclick="submitReg()" style="width:100%;justify-content:center;padding:13px">🌍 <span data-i18n="f_submit">Kaydı Tamamla</span></button>
+      </div>
+      <div id="gzConfirm" style="display:none">
+        <div class="badge">
+          <div class="badge-head">🧸 Yetim Vakfı × 🌍 COP31 Green Zone</div>
+          <div style="font-weight:800;margin-top:6px" data-i18n="gz_confirm">✅ Kaydınız Alındı!</div>
+          <div><div class="badge-code" id="gzCode">YV-GZ-XXXXXX</div></div>
+          <div style="font-size:12px;color:#065f46" data-i18n="gz_show">Stand girişinde bu kodu gösterin.</div>
+          <div class="badge-table" id="gzConfirmBody"></div>
+          <div class="btn-row no-print" style="justify-content:center;margin-top:14px">
+            <button class="btn btn-green btn-sm" onclick="window.print()">🖨️ <span data-i18n="gz_print">Kartı Yazdır</span></button>
+            <button class="btn btn-outline btn-sm" onclick="newReg()">➕ <span data-i18n="gz_new">Yeni Kayıt</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Registrations list -->
+    <div class="card">
+      <h2>📋 <span data-i18n="gz_list_title">Kayıtlı Ziyaretçiler</span></h2>
+      <p class="hint" data-i18n="gz_list_hint">Arama, filtreleme, giriş (check-in) ve bağış sözünü kayda dönüştürme.</p>
+      <div class="filters">
+        <input type="text" id="gzSearch" oninput="renderGzTable()" style="flex:1;min-width:160px">
+        <select id="gzFType" onchange="renderGzTable()"></select>
+        <select id="gzFDate" onchange="renderGzTable()"></select>
+        <button class="btn btn-outline btn-sm" onclick="gzExportCSV()">📥 CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table style="min-width:900px">
+          <thead><tr>
+            <th>🔑 <span data-i18n="gz_th_code">Kod</span></th><th data-i18n="gz_th_name">İsim / Kurum</th>
+            <th data-i18n="gz_th_contact">İletişim</th><th data-i18n="gz_th_type">Tür</th>
+            <th data-i18n="gz_th_date">Gün</th><th data-i18n="gz_th_pledge">Söz</th>
+            <th data-i18n="gz_th_status">Durum</th><th class="no-print">⚙️</th>
+          </tr></thead>
+          <tbody id="gzTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /viewGreen -->
+</div>
+
+<footer>
+  <span data-i18n="footer">Yetim Vakfı Fundraising Tracker • Veriler yalnızca bu tarayıcıda saklanır •</span>
+  <a href="https://yetimvakfi.org.tr/en" target="_blank" rel="noopener">yetimvakfi.org.tr</a> 💛
+  <br><small>📍 Dervişali, Kariye Cami Sk. No:6, 34087 Fatih/İstanbul • 📞 <a href="tel:+902129706060">0212 970 60 60</a> • ✉️ <a href="mailto:info@yetimvakfi.org.tr">info@yetimvakfi.org.tr</a></small>
+</footer>
+
+<!-- Donation modal -->
+<div class="modal-bg" id="donModal">
+  <div class="modal">
+    <h2>➕ <span data-i18n="m_don_title">Yeni Bağış Ekle</span></h2>
+    <div class="field"><label data-i18n="m_donor">Bağışçı Adı</label><input id="dDonor" placeholder="örn. Ahmet Yılmaz"></div>
+    <div class="field-row">
+      <div class="field"><label data-i18n="m_amount">Tutar</label><input id="dAmount" type="number" min="0" step="any" placeholder="1000"></div>
+      <div class="field"><label data-i18n="m_currency">Para Birimi</label>
+        <select id="dCurrency"><option>TRY</option><option>USD</option><option>EUR</option></select></div>
+    </div>
+    <div class="field"><label data-i18n="m_camp">Kampanya</label><select id="dCamp"></select></div>
+    <div class="field-row">
+      <div class="field"><label data-i18n="m_type">Bağış Türü</label><select id="dType"></select></div>
+      <div class="field"><label data-i18n="m_date">Tarih</label><input id="dDate" type="date"></div>
+    </div>
+    <div class="field"><label data-i18n="m_note">Not (opsiyonel)</label><input id="dNote" placeholder="örn. Gazze için"></div>
+    <div class="field" style="background:#f0fdfa;border-radius:10px;padding:10px 12px;font-size:13px" id="dPreview"></div>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="closeModal('donModal')" data-i18n="cancel">Vazgeç</button>
+      <button class="btn btn-teal" onclick="saveDonation()">💾 <span data-i18n="save">Kaydet</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Campaign modal -->
+<div class="modal-bg" id="campModal">
+  <div class="modal">
+    <h2>📢 <span id="cmTitle">Kampanya</span></h2>
+    <input type="hidden" id="cId">
+    <div class="field-row">
+      <div class="field"><label>Kampanya Adı (TR)</label><input id="cNameTr" placeholder="örn. Su Kuyusu"></div>
+      <div class="field"><label>Campaign Name (EN)</label><input id="cNameEn" placeholder="e.g. Water Well"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>🎯 Hedef (₺)</label><input id="cGoal" type="number" min="0" step="any"></div>
+      <div class="field"><label>💰 Mevcut (₺) <small style="color:#888">— başlangıç</small></label><input id="cInitial" type="number" min="0" step="any"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>🎨 İkon (emoji)</label><input id="cIcon" maxlength="4" placeholder="💧"></div>
+      <div class="field"><label>🌈 Renk</label><input id="cColor" type="color" value="#0d7377" style="height:42px"></div>
+    </div>
+    <div class="field"><label>Açıklama / Description</label><input id="cDesc" placeholder="Kısa açıklama..."></div>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="closeModal('campModal')" data-i18n="cancel2">Vazgeç</button>
+      <button class="btn btn-teal" onclick="saveCampaign()">💾 <span data-i18n="save2">Kaydet</span></button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================= I18N ================= */
+const I18N = {
+tr:{donate_now:"Hemen Bağış Yap",sponsor_link:"Yetim Sponsorluğu (aylık 900 ₺)",
+s_raised:"Toplanan Bağış",s_goal:"Genel Hedefe Ulaşım",s_count:"Bağış Adedi",s_camps:"Aktif Kampanya",s_month:"Bu Ay Toplanan",
+goal_title:"2026 Genel Bağış Hedefi",goal_desc:"Tüm kampanyalarda toplanan bağışların genel hedefe oranı. Yetim Vakfı 2025'te 38 ülkede 3,6 milyon kişiye ulaştı — 2026'da hedef daha büyük!",
+add_donation:"Bağış Ekle",add_campaign:"Kampanya Ekle",backup:"Yedekle",restore:"Geri Yükle",print:"Rapor Yazdır",reset:"Örnek Veriye Dön",
+campaigns:"Bağış Kampanyaları",campaigns_hint:"Yetim Vakfı'nın gerçek kampanya başlıkları yüklendi. Hedefleri düzenleyebilir, yeni kampanya ekleyebilirsiniz.",
+analytics:"Analiz & Raporlar",analytics_hint:"Bağışların aylık dağılımı, kampanya payları ve en cömert bağışçılar.",
+monthly:"📅 Son 6 Ay — Aylık Bağışlar (₺)",bycamp:"🍩 Kampanyalara Göre Dağılım",topdonors:"🏆 En Cömert Bağışçılar",
+donations:"Bağış Kayıtları",donations_hint:"Tüm bağışlar bu cihazda güvenle saklanır (çevrimdışı çalışır). CSV olarak dışa aktarabilirsiniz.",
+th_date:"Tarih",th_donor:"Bağışçı",th_donor_ph:"🔍 Bağışçı / not ara...",th_camp:"Kampanya",th_type:"Tür",th_amt:"Tutar",th_note:"Not",
+fx:"Döviz Kurları (₺ karşılığı)",fx_hint:"USD/EUR bağışlar bu kurlarla TL'ye çevrilir. Güncel kurları girin.",fx_note:"Varsayılan kurlar yaklaşıktır — lütfen güncel TCMB kurunu girin.",
+impact:"Etki Hesaplayıcı",impact_hint:"Aylık 900 ₺ = 1 yetime 1 ay sponsorluk • Yıllık 10.800 ₺ = 1 yetime 1 yıl sponsorluk",impact_txt:"yetim, sponsorluk kampanyasıyla 1 yıl boyunca desteklenebilir",
+footer:"Yetim Vakfı Fundraising Tracker • Veriler yalnızca bu tarayıcıda saklanır •",
+m_don_title:"Yeni Bağış Ekle",m_donor:"Bağışçı Adı",m_amount:"Tutar",m_currency:"Para Birimi",m_camp:"Kampanya",m_type:"Bağış Türü",m_date:"Tarih",m_note:"Not (opsiyonel)",
+cancel:"Vazgeç",cancel2:"Vazgeç",save:"Kaydet",save2:"Kaydet",
+all_camps:"Tüm Kampanyalar",all_types:"Tüm Türler",of_goal:"hedef",left_to_go:"kaldı",raised:"toplanan",goal:"hedef",
+donations_n:"bağış",donors_n:"bağışçı",avg:"Ortalama",vs_usd:"≈ $",vs_eur:"≈ €",this_month:"Eylül 2026",no_data:"Henüz kayıt yok.",
+type_names:{"one-time":"Tek Seferlik","monthly":"Aylık","zakat":"Zekât","sadaqah":"Sadaka","fidyah":"Fidye","corporate":"Kurumsal"},
+toast_saved:"✅ Kaydedildi!",toast_deleted:"🗑️ Silindi.",toast_reset:"↺ Örnek veriler yüklendi.",toast_import:"✅ Yedek geri yüklendi.",toast_err:"⚠️ Lütfen tüm alanları doldurun.",
+confirm_del:"Bu kayıt silinsin mi?",confirm_camp:"Bu kampanya ve bağlı bağışlar silinsin mi?",edit:"Düzenle",quick_add:"+ Bağış"},
+en:{donate_now:"Donate Now",sponsor_link:"Orphan Sponsorship ($22/mo)",
+s_raised:"Total Raised",s_goal:"Overall Goal",s_count:"Donations",s_camps:"Campaigns",s_month:"Raised This Month",
+goal_title:"2026 Overall Fundraising Goal",goal_desc:"Share of total donations vs. overall goal. Yetim Vakfı reached 3.6M people in 38 countries in 2025 — aiming higher in 2026!",
+add_donation:"Add Donation",add_campaign:"Add Campaign",backup:"Backup",restore:"Restore",print:"Print Report",reset:"Reset Sample Data",
+campaigns:"Fundraising Campaigns",campaigns_hint:"Pre-loaded with Yetim Vakfı's real campaign titles. Edit goals or add your own campaigns.",
+analytics:"Analytics & Reports",analytics_hint:"Monthly breakdown, campaign shares and top donors.",
+monthly:"📅 Last 6 Months — Monthly Donations (₺)",bycamp:"🍩 Distribution by Campaign",topdonors:"🏆 Top Donors",
+donations:"Donation Records",donations_hint:"All data is stored safely on this device (works offline). Export to CSV anytime.",
+th_date:"Date",th_donor:"Donor",th_donor_ph:"🔍 Search donor / note...",th_camp:"Campaign",th_type:"Type",th_amt:"Amount",th_note:"Note",
+fx:"Exchange Rates (in ₺)",fx_hint:"USD/EUR donations convert to TRY with these rates. Enter current rates.",fx_note:"Default rates are approximate — please enter the current rate.",
+impact:"Impact Calculator",impact_hint:"900 ₺/month = sponsor 1 orphan for a month • 10,800 ₺/year = sponsor 1 orphan for a year",impact_txt:"orphans can be sponsored for a full year via the sponsorship campaign",
+footer:"Yetim Vakfı Fundraising Tracker • Data stored only in this browser •",
+m_don_title:"Add New Donation",m_donor:"Donor Name",m_amount:"Amount",m_currency:"Currency",m_camp:"Campaign",m_type:"Donation Type",m_date:"Date",m_note:"Note (optional)",
+cancel:"Cancel",cancel2:"Cancel",save:"Save",save2:"Save",
+all_camps:"All Campaigns",all_types:"All Types",of_goal:"of goal",left_to_go:"to go",raised:"raised",goal:"goal",
+donations_n:"donations",donors_n:"donors",avg:"Average",vs_usd:"≈ $",vs_eur:"≈ €",this_month:"September 2026",no_data:"No records yet.",
+type_names:{"one-time":"One-time","monthly":"Monthly","zakat":"Zakat","sadaqah":"Sadaqah","fidyah":"Fidyah","corporate":"Corporate"},
+toast_saved:"✅ Saved!",toast_deleted:"🗑️ Deleted.",toast_reset:"↺ Sample data loaded.",toast_import:"✅ Backup restored.",toast_err:"⚠️ Please fill all fields.",
+confirm_del:"Delete this record?",confirm_camp:"Delete this campaign and its donations?",edit:"Edit",quick_add:"+ Donate"}
+};
+/* ---- COP31 Green Zone strings ---- */
+Object.assign(I18N.tr,{
+tab_fund:"Bağış Takibi",tab_fund_sub:"Fundraising Tracker",tab_green:"COP31 Yeşil Alan Kaydı",tab_green_sub:"Green Zone • Antalya EXPO • 9–20 Nov 2026",
+gz_title:"COP31 Yeşil Alan (Green Zone) — Stand Kayıt Masası",
+gz_desc:"Yetim Vakfı 9–20 Kasım 2026'da Antalya EXPO Center'da! Standımızı ziyaret edecek misafirler, gönüllüler ve paydaşlar için kayıt ve giriş (check-in) paneli.",
+gz_closed:"11–12 Kasım: Liderler Zirvesi (programı resmi siteden kontrol edin)",gz_free:"Ücretsiz giriş",gz_qr:"Kayıt + ziyaretçi QR kodu gerekli",
+gz_official_visit:"Resmi Ziyaret Kaydı (QR)",
+gz_note:"Bu form Yetim Vakfı standı içindir ve resmi giriş QR kodunun yerine geçmez — giriş QR kodunuzu cop31.tr/register-to-visit adresinden alın.",
+gz_s_reg:"Kayıtlı Kişi",gz_s_in:"Giriş Yapan",gz_s_vol:"Gönüllü",gz_s_pledge:"Bağış Sözü (₺)",gz_diff_days:"farklı gün",
+gz_form_title:"Ziyaretçi / Gönüllü Kayıt Formu",gz_form_hint:"Formu doldurun, size özel onay kodunuzu alın. Stand girişinde kodunuzu gösterin.",
+f_name:"Ad Soyad *",f_email:"E-posta",f_phone:"Telefon",f_org:"Kurum / Okul",f_city:"Şehir / Ülke",f_ptype:"Katılımcı Türü *",
+f_vdate:"Ziyaret Günü *",f_pledge:"Bağış Sözü (opsiyonel)",f_pcur:"Birim",f_pcamp:"Söz Verilen Kampanya",f_interests:"İlgilendiğiniz Kampanyalar",f_note:"Not",
+f_consent:"KVKK kapsamında bilgilerimin Yetim Vakfı tarafından saklanmasını kabul ediyorum. *",f_submit:"Kaydı Tamamla",
+p_all_days:"Tüm günler (9–20 Kasım)",pt_visitor:"Ziyaretçi",pt_volunteer:"Gönüllü",pt_partner:"Paydaş / STK",pt_media:"Basın",pt_youth:"Gençlik",
+gz_confirm:"✅ Kaydınız Alındı!",gz_show:"Stand girişinde bu kodu gösterin.",gz_print:"Kartı Yazdır",gz_new:"Yeni Kayıt",
+gz_list_title:"Kayıtlı Ziyaretçiler",gz_list_hint:"Arama, filtreleme, giriş (check-in) ve bağış sözünü kayda dönüştürme.",
+gz_search_ph:"🔍 İsim / kurum / kod ara...",gz_all_ptypes:"Tüm Türler",gz_all_dates:"Tüm Günler",
+gz_th_code:"Kod",gz_th_name:"İsim / Kurum",gz_th_contact:"İletişim",gz_th_type:"Tür",gz_th_date:"Gün",gz_th_pledge:"Söz",gz_th_status:"Durum",
+gz_checkin:"Giriş Yap",gz_undo:"Geri al",gz_to_don:"💛 Bağışa Dönüştür",gz_paid_q:"Bu söz, bağış kaydı olarak işlensin mi?",gz_del_q:"Bu kayıt silinsin mi?",
+gz_st_pending:"⏳ Bekliyor",toast_reg:"✅ Kayıt tamamlandı! Kod:",gz_b_name:"İsim",gz_b_type:"Tür",gz_b_day:"Ziyaret günü",gz_b_pledge:"Bağış sözü",gz_b_contact:"İletişim"});
+Object.assign(I18N.en,{
+tab_fund:"Fundraising",tab_fund_sub:"Bağış Takibi",tab_green:"COP31 Green Zone Sign-up",tab_green_sub:"Yeşil Alan • Antalya EXPO • 9–20 Nov 2026",
+gz_title:"COP31 Green Zone — Stand Registration Desk",
+gz_desc:"Yetim Vakfı will be at Antalya EXPO Center, 9–20 November 2026! Registration and check-in panel for stand visitors, volunteers and partners.",
+gz_closed:"11–12 Nov: Leaders' Summit days (check official program)",gz_free:"Free entry",gz_qr:"Registration + visitor QR code required",
+gz_official_visit:"Official Visitor Registration (QR)",
+gz_note:"This form is for the Yetim Vakfı stand only and does not replace the official entry QR — get your entry QR at cop31.tr/register-to-visit.",
+gz_s_reg:"Registered",gz_s_in:"Checked-in",gz_s_vol:"Volunteers",gz_s_pledge:"Pledges (₺)",gz_diff_days:"different days",
+gz_form_title:"Visitor / Volunteer Registration Form",gz_form_hint:"Fill in the form and receive your personal confirmation code. Show your code at the stand entrance.",
+f_name:"Full Name *",f_email:"Email",f_phone:"Phone",f_org:"Organization / School",f_city:"City / Country",f_ptype:"Participant Type *",
+f_vdate:"Visit Day *",f_pledge:"Donation Pledge (optional)",f_pcur:"Currency",f_pcamp:"Pledged Campaign",f_interests:"Campaigns You're Interested In",f_note:"Note",
+f_consent:"I consent to Yetim Vakfı storing my data under KVKK/GDPR. *",f_submit:"Complete Registration",
+p_all_days:"All days (9–20 November)",pt_visitor:"Visitor",pt_volunteer:"Volunteer",pt_partner:"Partner / NGO",pt_media:"Media",pt_youth:"Youth",
+gz_confirm:"✅ Registration Complete!",gz_show:"Show this code at the stand entrance.",gz_print:"Print Card",gz_new:"New Registration",
+gz_list_title:"Registered Visitors",gz_list_hint:"Search, filter, check-in and convert pledges into donations.",
+gz_search_ph:"🔍 Search name / org / code...",gz_all_ptypes:"All Types",gz_all_dates:"All Days",
+gz_th_code:"Code",gz_th_name:"Name / Org",gz_th_contact:"Contact",gz_th_type:"Type",gz_th_date:"Day",gz_th_pledge:"Pledge",gz_th_status:"Status",
+gz_checkin:"Check In",gz_undo:"Undo",gz_to_don:"💛 Convert to Donation",gz_paid_q:"Record this pledge as a donation?",gz_del_q:"Delete this registration?",
+gz_st_pending:"⏳ Pending",toast_reg:"✅ Registered! Code:",gz_b_name:"Name",gz_b_type:"Type",gz_b_day:"Visit day",gz_b_pledge:"Pledge",gz_b_contact:"Contact"});
+let LANG = localStorage.getItem('yv_lang') || 'tr';
+const t = k => (I18N[LANG] && I18N[LANG][k]) || I18N.tr[k] || k;
+
+/* ================= DATA ================= */
+const KEY = 'yetimVakfiTrackerV1';
+function sampleData(){ return {
+rates:{USD:41.5,EUR:48.6},
+campaigns:[
+ {id:'sponsor',icon:'🧸',color:'#0d7377',goal:3000000,initial:1245600,tr:'Yetim Sponsorluğu',en:'Orphan Sponsorship',desc:'Ayda 900 ₺ ile bir yetime sponsor olun — 21 ülkede 26.490 yetim (Eyl 2026).'},
+ {id:'gaza',icon:'🍲',color:'#dc2626',goal:5000000,initial:2873400,tr:'Filistin Acil Yardım / Gazze Sıcak Yemek',en:'Palestine Emergency Aid / Gaza Hot Meals',desc:'Gazze’de soykırıma maruz kalan kardeşlerimize acil insani yardım ve sıcak yemek.'},
+ {id:'canta',icon:'🎒',color:'#d97706',goal:1500000,initial:486000,tr:'İyilik Çantası – Kırtasiye',en:'School Bag – Stationery',desc:'2026 hedefi 20.000 çocuk — 1.500 ₺ ile bir çocuğun tüm kırtasiye ihtiyacı.'},
+ {id:'kurban',icon:'🐑',color:'#16a34a',goal:2000000,initial:912500,tr:'Adak – Akika – Şükür Kurbanı',en:'Vow – Aqiqah – Thanksgiving Qurbani',desc:'Kurban etleri ihtiyaç sahibi yetim çocuklara ulaştırılıyor.'},
+ {id:'zekat',icon:'🤲',color:'#7c3aed',goal:2500000,initial:1330750,tr:'Zekât & Sadaka Fonu',en:'Zakat & Sadaqah Fund',desc:'Zekâtınızla iyilik köprüsüne bir tuğla koyun.'},
+ {id:'yetimhane',icon:'🏠',color:'#0284c7',goal:4000000,initial:1140200,tr:'Yetimhane & Yerleşkeler',en:'Orphanages & Settlements',desc:'Ailesinden ayrı düşen çocuklara sıcak bir yuva.'},
+ {id:'gida',icon:'🧺',color:'#ea580c',goal:1200000,initial:402300,tr:'Gıda Paketi',en:'Food Parcel',desc:'Yetimlerin ve ihtiyaç sahiplerinin sofrasına bereket.'},
+ {id:'egitim',icon:'🎓',color:'#db2777',goal:1800000,initial:655800,tr:'Eğitim & Burs Desteği',en:'Education & Scholarship',desc:'Yetim kardeşlerimizin hayallerine giden yolda yanlarında olun.'}
+],
+donations:[
+ {id:uid(),donor:'Ömer Nadi Yılmaz',amount:100000,cur:'TRY',camp:'egitim',date:'2026-09-12',dtype:'one-time',note:'LGS birincilik ödülü bağışı 🎓'},
+ {id:uid(),donor:'Elif Şahin (9)',amount:32400,cur:'TRY',camp:'sponsor',date:'2026-09-02',note:'Harçlıklarıyla Gazze’de 3 yetime 1 yıllık sponsorluk 💛',dtype:'monthly'},
+ {id:uid(),donor:'Ahmet Yılmaz',amount:900,cur:'TRY',camp:'sponsor',date:'2026-09-20',dtype:'monthly',note:'Aylık sponsorluk'},
+ {id:uid(),donor:'Fatma Demir',amount:1500,cur:'TRY',camp:'canta',date:'2026-09-18',dtype:'one-time',note:'1 kırtasiye seti 🎒'},
+ {id:uid(),donor:'Mehmet Kaya',amount:5000,cur:'TRY',camp:'gaza',date:'2026-09-15',dtype:'sadaqah',note:'Gazze sıcak yemek'},
+ {id:uid(),donor:'Ayşe Çelik',amount:250,cur:'USD',camp:'gaza',date:'2026-09-10',dtype:'sadaqah',note:'Emergency aid'},
+ {id:uid(),donor:'Anonymous',amount:1800,cur:'TRY',camp:'sponsor',date:'2026-09-08',dtype:'monthly',note:'2 orphans'},
+ {id:uid(),donor:'Hatice Öztürk',amount:7500,cur:'TRY',camp:'kurban',date:'2026-08-28',dtype:'one-time',note:'Adak kurbanı 🐑'},
+ {id:uid(),donor:'Mustafa Arslan',amount:20000,cur:'TRY',camp:'zekat',date:'2026-08-20',dtype:'zakat',note:'Zekât'},
+ {id:uid(),donor:'Zeynep Aydın',amount:300,cur:'EUR',camp:'yetimhane',date:'2026-08-15',dtype:'one-time',note:'Orphanage support'},
+ {id:uid(),donor:'ABC Tekstil Ltd.',amount:150000,cur:'TRY',camp:'yetimhane',date:'2026-08-05',dtype:'corporate',note:'Kurumsal bağış'},
+ {id:uid(),donor:'Emre Yıldız',amount:900,cur:'TRY',camp:'sponsor',date:'2026-08-03',dtype:'monthly',note:''},
+ {id:uid(),donor:'Hüseyin Çetin',amount:2500,cur:'TRY',camp:'gida',date:'2026-07-25',dtype:'sadaqah',note:'5 gıda paketi 🧺'},
+ {id:uid(),donor:'Meryem Koç',amount:10800,cur:'TRY',camp:'sponsor',date:'2026-07-18',dtype:'monthly',note:'1 yetime 1 yıllık sponsorluk'},
+ {id:uid(),donor:'İbrahim Kurt',amount:10000,cur:'TRY',camp:'gaza',date:'2026-07-10',dtype:'zakat',note:'Fitre + zekât'},
+ {id:uid(),donor:'Selin Polat',amount:1500,cur:'TRY',camp:'canta',date:'2026-07-02',dtype:'one-time',note:''},
+ {id:uid(),donor:'Osman Yalçın',amount:500,cur:'USD',camp:'egitim',date:'2026-06-20',dtype:'one-time',note:'Scholarship fund'},
+ {id:uid(),donor:'Rabia Tunç',amount:3000,cur:'TRY',camp:'gida',date:'2026-06-12',dtype:'fidyah',note:'Fidye'},
+ {id:uid(),donor:'Yusuf Eren',amount:900,cur:'TRY',camp:'sponsor',date:'2026-06-05',dtype:'monthly',note:''},
+ {id:uid(),donor:'Khadija A.',amount:1000,cur:'USD',camp:'gaza',date:'2026-05-28',dtype:'sadaqah',note:'For Gaza orphans'},
+ {id:uid(),donor:'Anadolu Lojistik A.Ş.',amount:85000,cur:'TRY',camp:'gaza',date:'2026-05-15',dtype:'corporate',note:'Un ve sıcak yemek'},
+ {id:uid(),donor:'Derya Aksoy',amount:4500,cur:'TRY',camp:'canta',date:'2026-05-08',dtype:'one-time',note:'3 kırtasiye seti'},
+ {id:uid(),donor:'Burak Güneş',amount:15000,cur:'TRY',camp:'kurban',date:'2026-04-22',dtype:'one-time',note:'Akika kurbanı'},
+ {id:uid(),donor:'Seda Kılıç',amount:900,cur:'TRY',camp:'sponsor',date:'2026-04-10',dtype:'monthly',note:''}
+]};}
+function uid(){return 'd'+Math.random().toString(36).slice(2,9)}
+let DB;
+try{ DB = JSON.parse(localStorage.getItem(KEY)) || sampleData(); }catch(e){ DB = sampleData(); }
+if(!DB.campaigns || !DB.donations) DB = sampleData();
+if(!DB.registrations) DB.registrations = sampleRegs();
+function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
+
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+const fmtTRY = n => '₺' + Math.round(n).toLocaleString('tr-TR');
+const fmtNum = n => Math.round(n).toLocaleString('tr-TR');
+const campById = id => DB.campaigns.find(c=>c.id===id);
+const campName = c => LANG==='tr' ? c.tr : (c.en||c.tr);
+function toTRY(d){ if(d.cur==='USD') return d.amount*DB.rates.USD; if(d.cur==='EUR') return d.amount*DB.rates.EUR; return d.amount; }
+function campRaised(id){ const c=campById(id); if(!c) return 0; return (c.initial||0) + DB.donations.filter(d=>d.camp===id).reduce((s,d)=>s+toTRY(d),0); }
+function toast(msg){ const el=$('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2200); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* ================= RENDER ================= */
+function renderAll(){ renderStats(); renderCampaigns(); renderCharts(); renderFilters(); renderTable(); renderRates(); renderImpact(); renderGreen(); applyLang(); }
+function renderStats(){
+  const total = DB.campaigns.reduce((s,c)=>s+campRaised(c.id),0);
+  const goal = DB.campaigns.reduce((s,c)=>s+(+c.goal||0),0);
+  const pct = goal? (total/goal*100):0;
+  $('statRaised').textContent = fmtTRY(total);
+  $('statRaisedSub').textContent = `${t('vs_usd')}${fmtNum(total/DB.rates.USD)}  •  ${t('vs_eur')}${fmtNum(total/DB.rates.EUR)}`;
+  $('statPct').textContent = '%'+pct.toFixed(1);
+  $('statGoal').textContent = `${t('goal')}: ${fmtTRY(goal)}`;
+  $('statCount').textContent = fmtNum(DB.donations.length);
+  const avg = DB.donations.length? DB.donations.reduce((s,d)=>s+toTRY(d),0)/DB.donations.length : 0;
+  $('statAvg').textContent = `${t('avg')}: ${fmtTRY(avg)}`;
+  $('statCamps').textContent = DB.campaigns.length;
+  $('statDonors').textContent = new Set(DB.donations.map(d=>d.donor)).size + ' ' + t('donors_n');
+  const mk = new Date().toISOString().slice(0,7);
+  const monthSum = DB.donations.filter(d=>(d.date||'').startsWith(mk)).reduce((s,d)=>s+toTRY(d),0);
+  $('statMonth').textContent = fmtTRY(monthSum);
+  $('statMonthSub').textContent = t('this_month');
+  $('goalBar').style.width = Math.min(100,pct)+'%';
+  $('goalLeft').textContent = `${fmtTRY(total)} ${t('raised')} • %${pct.toFixed(1)} ${t('of_goal')}`;
+  $('goalRight').textContent = `${fmtTRY(Math.max(0,goal-total))} ${t('left_to_go')}`;
+}
+function renderCampaigns(){
+  const g = $('campGrid'); g.innerHTML='';
+  DB.campaigns.forEach(c=>{
+    const raised = campRaised(c.id), goal=+c.goal||1, pct=Math.min(100,raised/goal*100);
+    const n = DB.donations.filter(d=>d.camp===c.id).length;
+    const div=document.createElement('div'); div.className='camp';
+    div.innerHTML = `
+      <div class="chead"><div class="ico" style="background:${c.color}1a">${esc(c.icon||'💛')}</div>
+      <h3>${esc(campName(c))}</h3></div>
+      <div class="cdesc">${esc(c.desc||'')}</div>
+      <div class="nums"><span>${fmtTRY(raised)}</span><span>%${pct.toFixed(1)}</span></div>
+      <div class="progress"><i style="width:${pct}%;background:${c.color}"></i></div>
+      <div class="nums" style="margin-top:6px;font-weight:500;color:var(--muted);font-size:12px"><span>${t('goal')}: ${fmtTRY(goal)}</span><span>${n} ${t('donations_n')}</span></div>
+      <div class="cbtns">
+        <button class="btn btn-teal btn-sm" onclick="quickDonate('${c.id}')">${t('quick_add')}</button>
+        <button class="icon-btn" title="${t('edit')}" onclick="openCampaignModal('${c.id}')">✏️</button>
+        <button class="icon-btn" title="🗑️" onclick="deleteCampaign('${c.id}')">🗑️</button>
+      </div>`;
+    g.appendChild(div);
+  });
+}
+function monthKey(d,n){ const x=new Date(d.getFullYear(),d.getMonth()-n,1); return x.toISOString().slice(0,7); }
+function monthLbl(k){ const [y,m]=k.split('-'); const months = LANG==='tr'?['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara']:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return months[+m-1]+" '"+String(y).slice(2); }
+function renderCharts(){
+  // --- bars ---
+  const now=new Date(); const keys=[5,4,3,2,1,0].map(n=>monthKey(now,n));
+  const sums=keys.map(k=>DB.donations.filter(d=>(d.date||'').startsWith(k)).reduce((s,d)=>s+toTRY(d),0));
+  const max=Math.max(...sums,1); const W=320,H=170,pad=30,bw=(W-pad-10)/6;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">`;
+  sums.forEach((v,i)=>{ const h=Math.max(3,(H-50)*(v/max)); const x=pad+i*bw+4, y=H-30-h;
+    svg+=`<rect x="${x}" y="${y}" width="${bw-10}" height="${h}" rx="5" fill="#0d7377" opacity="${0.45+0.55*(v/max)}"><title>${fmtTRY(v)}</title></rect>`;
+    if(v>0) svg+=`<text x="${x+(bw-10)/2}" y="${y-4}" font-size="8.5" text-anchor="middle" fill="#095c5f" font-weight="700">${v>=1000?(v/1000).toFixed(0)+'B':'₺'+fmtNum(v)}</text>`;
+    svg+=`<text x="${x+(bw-10)/2}" y="${H-14}" font-size="9.5" text-anchor="middle" fill="#6b7280">${monthLbl(keys[i])}</text>`;});
+  svg+='</svg>'; $('barChart').innerHTML=svg;
+  // --- donut ---
+  const data=DB.campaigns.map(c=>({c,v:campRaised(c.id)})).filter(x=>x.v>0);
+  const tot=data.reduce((s,x)=>s+x.v,0)||1;
+  const R=54,C=2*Math.PI*R; let off=0;
+  let d=`<svg viewBox="0 0 140 140" style="width:170px;height:170px"><circle cx="70" cy="70" r="${R}" fill="none" stroke="#f1ece0" stroke-width="24"/>`;
+  data.forEach(x=>{ const frac=x.v/tot; d+=`<circle cx="70" cy="70" r="${R}" fill="none" stroke="${x.c.color}" stroke-width="24" stroke-dasharray="${(frac*C).toFixed(1)} ${C.toFixed(1)}" stroke-dashoffset="${(-off).toFixed(1)}" transform="rotate(-90 70 70)"><title>${esc(campName(x.c))}: ${fmtTRY(x.v)}</title></circle>`; off+=frac*C; });
+  d+=`<text x="70" y="66" text-anchor="middle" font-size="13" font-weight="800" fill="#1f2937">${tot>=1e6?(tot/1e6).toFixed(1)+'M':'₺'+fmtNum(tot)}</text><text x="70" y="82" text-anchor="middle" font-size="10" fill="#6b7280">${t('s_raised')}</text></svg>`;
+  $('donutChart').innerHTML=d;
+  $('donutLegend').innerHTML=data.sort((a,b)=>b.v-a.v).map(x=>`<div><span class="dot" style="background:${x.c.color}"></span><span style="flex:1">${esc(campName(x.c))}</span><b>%${(x.v/tot*100).toFixed(1)}</b></div>`).join('');
+  // --- top donors ---
+  const by={}; DB.donations.forEach(x=>{by[x.donor]=(by[x.donor]||0)+toTRY(x)});
+  const top=Object.entries(by).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const medals=['🥇','🥈','🥉','4.','5.'];
+  $('topDonors').innerHTML = top.length? top.map((e,i)=>`<li><span><span class="medal">${medals[i]}</span>${esc(e[0])}</span><b>${fmtTRY(e[1])}</b></li>`).join('') : `<li>${t('no_data')}</li>`;
+}
+function renderFilters(){
+  const fc=$('fCamp'), cur=fc.value;
+  fc.innerHTML=`<option value="">${t('all_camps')}</option>`+DB.campaigns.map(c=>`<option value="${c.id}">${esc(c.icon+' '+campName(c))}</option>`).join('');
+  if([...fc.options].some(o=>o.value===cur)) fc.value=cur;
+  const ft=$('fType'), curT=ft.value, tn=t('type_names');
+  ft.innerHTML=`<option value="">${t('all_types')}</option>`+Object.keys(tn).map(k=>`<option value="${k}">${tn[k]}</option>`).join('');
+  if([...ft.options].some(o=>o.value===curT)) ft.value=curT;
+  $('fSearch').placeholder=t('th_donor_ph');
+}
+function renderTable(){
+  const q=($('fSearch').value||'').toLowerCase(), fc=$('fCamp').value, ft=$('fType').value, sort=$('fSort').value;
+  let rows=DB.donations.filter(d=>(!fc||d.camp===fc)&&(!ft||d.dtype===ft)&&(!q||(d.donor+' '+(d.note||'')).toLowerCase().includes(q)));
+  rows.sort((a,b)=> sort==='date-asc'? a.date.localeCompare(b.date) : sort==='amt-desc'? toTRY(b)-toTRY(a) : sort==='amt-asc'? toTRY(a)-toTRY(b) : b.date.localeCompare(a.date));
+  const tb=$('donTable'); const tn=t('type_names');
+  if(!rows.length){ tb.innerHTML=`<tr><td colspan="7" class="empty">${t('no_data')}</td></tr>`; return; }
+  tb.innerHTML=rows.map(d=>{ const c=campById(d.camp); const sym=d.cur==='USD'?'$':d.cur==='EUR'?'€':'₺';
+    return `<tr><td style="white-space:nowrap">${esc(d.date)}</td><td><b>${esc(d.donor)}</b></td>
+    <td>${c?esc(c.icon+' '+campName(c)):'—'}</td>
+    <td><span class="pill ${esc(d.dtype||'one-time')}">${esc(tn[d.dtype]||d.dtype)}</span></td>
+    <td class="amt">${sym}${fmtNum(d.amount)}${d.cur!=='TRY'?` <small style="color:var(--muted);font-weight:500">(${fmtTRY(toTRY(d))})</small>`:''}</td>
+    <td style="color:var(--muted)">${esc(d.note||'—')}</td>
+    <td class="no-print"><button class="icon-btn" onclick="deleteDonation('${d.id}')">🗑️</button></td></tr>`;}).join('');
+}
+function renderRates(){ $('rateUSD').value=DB.rates.USD; $('rateEUR').value=DB.rates.EUR; }
+function renderImpact(){ const s=campRaised('sponsor'); $('orphanCount').textContent=fmtNum(s/10800); }
+
+/* ================= MODALS ================= */
+function openModal(id){ $(id).classList.add('open'); }
+function closeModal(id){ $(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+function openDonationModal(presetCamp){
+  $('dCamp').innerHTML=DB.campaigns.map(c=>`<option value="${c.id}">${esc(c.icon+' '+campName(c))}</option>`).join('');
+  const tn=t('type_names');
+  $('dType').innerHTML=Object.keys(tn).map(k=>`<option value="${k}">${tn[k]}</option>`).join('');
+  if(presetCamp) $('dCamp').value=presetCamp;
+  $('dDonor').value=''; $('dAmount').value=''; $('dCurrency').value='TRY'; $('dNote').value='';
+  $('dDate').value=new Date().toISOString().slice(0,10);
+  updPreview(); openModal('donModal');
+}
+function quickDonate(id){ openDonationModal(id); }
+['dAmount','dCurrency'].forEach(id=>document.addEventListener('input',e=>{ if(e.target&&e.target.id===id) updPreview(); }));
+function updPreview(){
+  const a=+$('dAmount').value||0, cur=$('dCurrency').value;
+  const v = cur==='USD'? a*DB.rates.USD : cur==='EUR'? a*DB.rates.EUR : a;
+  $('dPreview').innerHTML=`💱 ≈ <b>${fmtTRY(v)}</b>`;
+}
+function saveDonation(){
+  const donor=$('dDonor').value.trim(), amount=+$('dAmount').value, cur=$('dCurrency').value,
+        camp=$('dCamp').value, dtype=$('dType').value, date=$('dDate').value, note=$('dNote').value.trim();
+  if(!donor||!amount||amount<=0||!camp||!date){ toast(t('toast_err')); return; }
+  DB.donations.unshift({id:uid(),donor,amount,cur,camp,dtype,date,note});
+  save(); closeModal('donModal'); renderAll(); toast(t('toast_saved'));
+}
+function deleteDonation(id){ if(!confirm(t('confirm_del'))) return; DB.donations=DB.donations.filter(d=>d.id!==id); save(); renderAll(); toast(t('toast_deleted')); }
+function openCampaignModal(id){
+  const c=id?campById(id):null;
+  $('cmTitle').textContent = c? (LANG==='tr'?'Kampanyayı Düzenle':'Edit Campaign') : (LANG==='tr'?'Yeni Kampanya':'New Campaign');
+  $('cId').value=c?c.id:''; $('cNameTr').value=c?c.tr:''; $('cNameEn').value=c?(c.en||''):''; 
+  $('cGoal').value=c?c.goal:''; $('cInitial').value=c?(c.initial||0):0;
+  $('cIcon').value=c?(c.icon||''):''; $('cColor').value=c?c.color:'#0d7377'; $('cDesc').value=c?(c.desc||''):'';
+  openModal('campModal');
+}
+function saveCampaign(){
+  const id=$('cId').value, tr=$('cNameTr').value.trim(), en=$('cNameEn').value.trim()||tr,
+        goal=+$('cGoal').value||0, initial=+$('cInitial').value||0,
+        icon=$('cIcon').value.trim()||'💛', color=$('cColor').value, desc=$('cDesc').value.trim();
+  if(!tr||goal<=0){ toast(t('toast_err')); return; }
+  if(id){ const c=campById(id); Object.assign(c,{tr,en,goal,initial,icon,color,desc}); }
+  else DB.campaigns.push({id:uid(),tr,en,goal,initial,icon,color,desc});
+  save(); closeModal('campModal'); renderAll(); toast(t('toast_saved'));
+}
+function deleteCampaign(id){ if(!confirm(t('confirm_camp'))) return; DB.campaigns=DB.campaigns.filter(c=>c.id!==id); DB.donations=DB.donations.filter(d=>d.camp!==id); save(); renderAll(); toast(t('toast_deleted')); }
+
+/* ================= EXPORT / IMPORT / RESET ================= */
+function dl(name,content,mime){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type:mime})); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); }
+function exportCSV(){
+  const tn=t('type_names');
+  const rows=[['Date','Donor','Campaign','Type','Amount','Currency','Amount_TRY','Note']];
+  DB.donations.forEach(d=>{ const c=campById(d.camp);
+    const cn = c ? campName(c) : '?';
+    rows.push([d.date, '"'+String(d.donor).replace(/"/g,'""')+'"', '"'+String(cn).replace(/"/g,'""')+'"', tn[d.dtype]||d.dtype, d.amount, d.cur, Math.round(toTRY(d)), '"'+String(d.note||'').replace(/"/g,'""')+'"']);
+  });
+  dl('yetim-vakfi-donations.csv','\ufeff'+rows.map(r=>r.join(',')).join('\n'),'text/csv;charset=utf-8');
+  toast('📥 CSV');
+}
+function exportJSON(){ dl('yetim-vakfi-backup.json',JSON.stringify(DB,null,2),'application/json'); toast('💾 '+t('toast_saved')); }
+function importJSON(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.campaigns||!d.donations) throw 0; if(!d.registrations) d.registrations=[]; DB=d; save(); renderAll(); toast(t('toast_import')); }catch(_){ toast('⚠️ Invalid file'); } };
+  r.readAsText(f); e.target.value='';
+}
+function saveRates(){ DB.rates.USD=+$('rateUSD').value||DB.rates.USD; DB.rates.EUR=+$('rateEUR').value||DB.rates.EUR; save(); renderAll(); }
+function resetData(){ if(!confirm(LANG==='tr'?'Örnek verilere dönülsün mü? Mevcut değişiklikler silinir.':'Reset to sample data? Your changes will be lost.')) return; DB=sampleData(); DB.registrations=sampleRegs(); save(); renderAll(); toast(t('toast_reset')); }
+
+/* ================= LANG ================= */
+function toggleLang(){ LANG = LANG==='tr'?'en':'tr'; localStorage.setItem('yv_lang',LANG); document.documentElement.lang=LANG; renderAll(); }
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const v=t(el.dataset.i18n); if(typeof v==='string') el.textContent=v; });
+  $('langBtn').textContent = LANG==='tr' ? 'EN 🇬🇧' : 'TR 🇹🇷';
+  $('t-subtitle').textContent = LANG==='tr'
+    ? 'Yetim çocuklarımızın gülümsemesine vesile olun — bağış kampanyalarınızı tek panelden takip edin.'
+    : 'Bring smiles to orphaned children — track all your fundraising campaigns in one dashboard.';
+  $('fSort').options[0].textContent = LANG==='tr'?'📅 Yeniden eskiye':'📅 Newest first';
+  $('fSort').options[1].textContent = LANG==='tr'?'📅 Eskiden yeniye':'📅 Oldest first';
+  $('fSort').options[2].textContent = LANG==='tr'?'💰 Tutar (yüksek→düşük)':'💰 Amount (high→low)';
+  $('fSort').options[3].textContent = LANG==='tr'?'💰 Tutar (düşük→yüksek)':'💰 Amount (low→high)';
+}
+
+/* ================= COP31 GREEN ZONE ================= */
+const GZ_DAYS=['2026-11-09','2026-11-10','2026-11-13','2026-11-14','2026-11-15','2026-11-16','2026-11-17','2026-11-18','2026-11-19','2026-11-20'];
+const GZ_PTYPES=['visitor','volunteer','partner','media','youth'];
+function sampleRegs(){ return [
+ {id:'gz1',code:'YV-GZ-7K2P4M',name:'Deniz Akdeniz',email:'deniz@example.com',phone:'+90 532 000 11 22',org:'Akdeniz Üniversitesi',city:'Antalya / Türkiye',ptype:'youth',vdate:'2026-11-13',pledge:1500,pcur:'TRY',pcamp:'canta',interests:['canta','egitim'],note:'',created:'2026-09-20 14:30',checkedIn:null},
+ {id:'gz2',code:'YV-GZ-3QX8TA',name:'Sarah Miller',email:'sarah@climate-ngo.org',phone:'',org:'Climate Youth Network',city:'Berlin / Germany',ptype:'partner',vdate:'all',pledge:500,pcur:'EUR',pcamp:'gaza',interests:['gaza','sponsor'],note:'Interested in partnership',created:'2026-09-18 10:05',checkedIn:null},
+ {id:'gz3',code:'YV-GZ-9LM1ZD',name:'Emre Yıldız',email:'',phone:'+90 555 111 22 33',org:'',city:'İstanbul / Türkiye',ptype:'volunteer',vdate:'2026-11-09',pledge:0,pcur:'TRY',pcamp:'',interests:['sponsor'],note:'Stand gönüllüsü',created:'2026-09-15 09:00',checkedIn:null}
+];}
+function gzDayLabel(v){ if(v==='all') return t('p_all_days'); const d=new Date(v+'T12:00:00'); return d.toLocaleDateString(LANG==='tr'?'tr-TR':'en-GB',{day:'numeric',month:'short',weekday:'short'}); }
+function gzCode(){ let c; do{ c='YV-GZ-'+Math.random().toString(36).slice(2,8).toUpperCase(); }while((DB.registrations||[]).some(r=>r.code===c)); return c; }
+function gzPtypeName(p){ return t('pt_'+p)||p; }
+function showView(v){
+  $('viewFund').style.display = v==='fund'?'':'none';
+  $('viewGreen').style.display = v==='green'?'':'none';
+  $('tabFund').classList.toggle('active',v==='fund');
+  $('tabGreen').classList.toggle('active',v==='green');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderGreen(){ if(!$('viewGreen')) return; buildGzForm(); renderGzStats(); renderGzFilters(); renderGzTable(); }
+function buildGzForm(){
+  const keep={pt:$('gzPtype').value,vd:$('gzVdate').value,pc:$('gzPcamp').value,cur:$('gzPcur').value,
+    checked:new Set([...document.querySelectorAll('#gzInterests input:checked')].map(x=>x.value))};
+  $('gzPtype').innerHTML=GZ_PTYPES.map(p=>`<option value="${p}">${gzPtypeName(p)}</option>`).join('');
+  $('gzVdate').innerHTML=`<option value="all">${t('p_all_days')}</option>`+GZ_DAYS.map(d=>`<option value="${d}">${gzDayLabel(d)}</option>`).join('');
+  $('gzPcamp').innerHTML=DB.campaigns.map(c=>`<option value="${c.id}">${esc(c.icon+' '+campName(c))}</option>`).join('');
+  $('gzInterests').innerHTML=DB.campaigns.map(c=>`<label><input type="checkbox" value="${c.id}">${esc(c.icon+' '+campName(c))}</label>`).join('');
+  if(keep.pt)$('gzPtype').value=keep.pt; if(keep.vd)$('gzVdate').value=keep.vd;
+  if(keep.pc&&campById(keep.pc))$('gzPcamp').value=keep.pc; if(keep.cur)$('gzPcur').value=keep.cur;
+  document.querySelectorAll('#gzInterests input').forEach(x=>{x.checked=keep.checked.has(x.value)});
+}
+function renderGzStats(){
+  const R=DB.registrations||[];
+  $('gzStatReg').textContent=fmtNum(R.length);
+  $('gzStatRegSub').textContent=new Set(R.map(r=>r.vdate)).size+' '+t('gz_diff_days');
+  $('gzStatIn').textContent=fmtNum(R.filter(r=>r.checkedIn).length);
+  $('gzStatVol').textContent=fmtNum(R.filter(r=>r.ptype==='volunteer').length);
+  const pl=R.reduce((s,r)=>s+(+r.pledge||0)*(r.pcur==='USD'?DB.rates.USD:r.pcur==='EUR'?DB.rates.EUR:1),0);
+  $('gzStatPledge').textContent=fmtTRY(pl);
+}
+function renderGzFilters(){
+  const ft=$('gzFType'), curT=ft.value;
+  ft.innerHTML=`<option value="">${t('gz_all_ptypes')}</option>`+GZ_PTYPES.map(p=>`<option value="${p}">${gzPtypeName(p)}</option>`).join('');
+  if([...ft.options].some(o=>o.value===curT)) ft.value=curT;
+  const fd=$('gzFDate'), curD=fd.value;
+  fd.innerHTML=`<option value="">${t('gz_all_dates')}</option>`+GZ_DAYS.map(d=>`<option value="${d}">${gzDayLabel(d)}</option>`).join('');
+  if([...fd.options].some(o=>o.value===curD)) fd.value=curD;
+  $('gzSearch').placeholder=t('gz_search_ph');
+}
+function renderGzTable(){
+  const q=($('gzSearch').value||'').toLowerCase(), ft=$('gzFType').value, fd=$('gzFDate').value;
+  const rows=(DB.registrations||[]).filter(r=>(!ft||r.ptype===ft)&&(!fd||r.vdate===fd||r.vdate==='all')&&(!q||((r.name+' '+(r.org||'')+' '+r.code+' '+(r.email||'')).toLowerCase().includes(q))));
+  const tb=$('gzTable');
+  if(!rows.length){ tb.innerHTML=`<tr><td colspan="8" class="empty">${t('no_data')}</td></tr>`; return; }
+  tb.innerHTML=rows.map(r=>{
+    const sym=r.pcur==='USD'?'$':r.pcur==='EUR'?'€':'₺';
+    const pc=r.pcamp?campById(r.pcamp):null;
+    return `<tr><td><b style="color:#059669;white-space:nowrap">${esc(r.code)}</b></td>
+    <td><b>${esc(r.name)}</b>${r.org?`<br><small style="color:var(--muted)">${esc(r.org)}</small>`:''}</td>
+    <td style="font-size:12px">${esc(r.email||'—')}${r.phone?`<br>${esc(r.phone)}`:''}</td>
+    <td>${gzPtypeName(r.ptype)}</td>
+    <td style="white-space:nowrap;font-size:12.5px">${gzDayLabel(r.vdate)}</td>
+    <td class="amt">${r.pledge>0?sym+fmtNum(r.pledge)+(pc?`<br><small style="font-weight:500">${esc(pc.icon)}</small>`:''):'<span style="color:var(--muted)">—</span>'}</td>
+    <td>${r.checkedIn?`<span class="status-ok">✅ ${esc((r.checkedIn||'').slice(0,16).replace('T',' '))}</span>`:`<span class="status-wait">${t('gz_st_pending')}</span>`}</td>
+    <td class="no-print" style="white-space:nowrap">
+      ${r.checkedIn?`<button class="icon-btn" title="${t('gz_undo')}" onclick="gzCheckin('${r.id}')">↩️</button>`:`<button class="btn btn-green btn-sm" onclick="gzCheckin('${r.id}')">✔ ${t('gz_checkin')}</button>`}
+      ${r.pledge>0?`<button class="icon-btn" title="${esc(t('gz_to_don'))}" onclick="gzToDonation('${r.id}')">💛</button>`:''}
+      <button class="icon-btn" onclick="gzDelete('${r.id}')">🗑️</button>
+    </td></tr>`;}).join('');
+}
+function submitReg(){
+  const name=$('gzName').value.trim(), email=$('gzEmail').value.trim(), phone=$('gzPhone').value.trim(),
+        org=$('gzOrg').value.trim(), city=$('gzCity').value.trim(), ptype=$('gzPtype').value,
+        vdate=$('gzVdate').value, pledge=+$('gzPledge').value||0, pcur=$('gzPcur').value,
+        pcamp=$('gzPcamp').value, note=$('gzNote').value.trim(), consent=$('gzConsent').checked;
+  const interests=[...document.querySelectorAll('#gzInterests input:checked')].map(x=>x.value);
+  if(!name || !(email||phone) || !ptype || !vdate || !consent){ toast(t('toast_err')); return; }
+  const reg={id:uid(),code:gzCode(),name,email,phone,org,city,ptype,vdate,pledge,pcur,pcamp:pledge>0?pcamp:'',interests,note,created:new Date().toISOString().slice(0,16).replace('T',' '),checkedIn:null};
+  DB.registrations.unshift(reg); save();
+  ['gzName','gzEmail','gzPhone','gzOrg','gzCity','gzPledge','gzNote'].forEach(i=>$(i).value='');
+  $('gzConsent').checked=false;
+  document.querySelectorAll('#gzInterests input:checked').forEach(x=>x.checked=false);
+  renderGreen();
+  $('gzForm').style.display='none'; $('gzConfirm').style.display='';
+  $('gzCode').textContent=reg.code;
+  const sym=pcur==='USD'?'$':pcur==='EUR'?'€':'₺';
+  const pc=reg.pcamp?campById(reg.pcamp):null;
+  $('gzConfirmBody').innerHTML=
+    `<div><span>${t('gz_b_name')}</span><b>${esc(reg.name)}</b></div>`+
+    `<div><span>${t('gz_b_type')}</span><b>${gzPtypeName(reg.ptype)}</b></div>`+
+    `<div><span>${t('gz_b_day')}</span><b>${gzDayLabel(reg.vdate)}</b></div>`+
+    (reg.pledge>0?`<div><span>${t('gz_b_pledge')}</span><b>${sym}${fmtNum(reg.pledge)}${pc?' • '+esc(pc.icon+' '+campName(pc)):''}</b></div>`:'')+
+    `<div><span>${t('gz_b_contact')}</span><b>${esc(reg.email||reg.phone)}</b></div>`;
+  toast(t('toast_reg')+' '+reg.code);
+  $('gzConfirm').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function newReg(){ $('gzConfirm').style.display='none'; $('gzForm').style.display=''; }
+function gzCheckin(id){ const r=(DB.registrations||[]).find(x=>x.id===id); if(!r) return; r.checkedIn=r.checkedIn?null:new Date().toISOString().slice(0,16); save(); renderAll(); }
+function gzToDonation(id){
+  const r=(DB.registrations||[]).find(x=>x.id===id); if(!r||!r.pledge) return;
+  if(!confirm(t('gz_paid_q'))) return;
+  DB.donations.unshift({id:uid(),donor:r.name,amount:r.pledge,cur:r.pcur||'TRY',camp:(r.pcamp&&campById(r.pcamp))?r.pcamp:DB.campaigns[0].id,date:new Date().toISOString().slice(0,10),dtype:'one-time',note:'🌍 COP31 Green Zone • '+r.code});
+  r.pledge=0; save(); renderAll(); toast(t('toast_saved'));
+}
+function gzDelete(id){ if(!confirm(t('gz_del_q'))) return; DB.registrations=(DB.registrations||[]).filter(x=>x.id!==id); save(); renderAll(); toast(t('toast_deleted')); }
+function gzExportCSV(){
+  const rows=[['Code','Name','Email','Phone','Organization','City','Type','VisitDay','Interests','Pledge','Currency','PledgedCampaign','Note','Created','CheckedIn']];
+  (DB.registrations||[]).forEach(r=>{
+    const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+    const pc=r.pcamp?campById(r.pcamp):null;
+    const ints=(r.interests||[]).map(i=>{const c=campById(i);return c?campName(c):i;}).join('; ');
+    rows.push([r.code,q(r.name),q(r.email||''),q(r.phone||''),q(r.org||''),q(r.city||''),gzPtypeName(r.ptype),r.vdate,q(ints),r.pledge||0,r.pcur||'TRY',q(pc?campName(pc):''),q(r.note||''),r.created||'',r.checkedIn||'']);
+  });
+  dl('yetim-vakfi-cop31-green-zone.csv','\ufeff'+rows.map(r=>r.join(',')).join('\n'),'text/csv;charset=utf-8');
+  toast('📥 CSV');
+}
+
+/* ================= INIT ================= */
+document.documentElement.lang=LANG;
+renderAll();
+</script>
+</body>
+</html>

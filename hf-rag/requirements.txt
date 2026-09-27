@@ -1,0 +1,3 @@
+# Retrieval works with ZERO dependencies (pure Python).
+# Only needed for optional generative answers via HuggingFace Inference API:
+# huggingface_hub>=0.23
