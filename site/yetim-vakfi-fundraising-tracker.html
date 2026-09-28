@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Yetim Vakfı fundraising tracker — campaigns, donations in TRY/USD/EUR and COP31 Green Zone registration.">
 <title>Yetim Vakfı • Fundraising Tracker & COP31 Green Zone</title>
 <link rel="stylesheet" href="site-theme.css">
 <style>
@@ -264,9 +265,9 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:22px 10px 3
     <p class="hint" data-i18n="donations_hint">Tüm bağışlar bu cihazda güvenle saklanır (çevrimdışı çalışır). CSV olarak dışa aktarabilirsiniz.</p>
     <div class="filters">
       <input type="text" id="fSearch" placeholder="🔍 Bağışçı / not ara..." oninput="renderTable()" style="flex:1;min-width:160px">
-      <select id="fCamp" onchange="renderTable()"></select>
-      <select id="fType" onchange="renderTable()"></select>
-      <select id="fSort" onchange="renderTable()">
+      <select id="fCamp" aria-label="Kampanya filtresi / Campaign filter" onchange="renderTable()"></select>
+      <select id="fType" aria-label="Tür filtresi / Type filter" onchange="renderTable()"></select>
+      <select id="fSort" aria-label="Sıralama / Sort" onchange="renderTable()">
         <option value="date-desc">📅 Yeniden eskiye</option>
         <option value="date-asc">📅 Eskiden yeniye</option>
         <option value="amt-desc">💰 Tutar (yüksek→düşük)</option>
@@ -289,8 +290,8 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:22px 10px 3
     <div class="card">
       <h2>💱 <span data-i18n="fx">Döviz Kurları (₺ karşılığı)</span></h2>
       <p class="hint" data-i18n="fx_hint">USD/EUR bağışlar bu kurlarla TL'ye çevrilir. Güncel kurları girin.</p>
-      <div class="rate-row"><label>💵 1 USD =</label><input type="number" id="rateUSD" step="0.01" min="0" onchange="saveRates()"> ₺</div>
-      <div class="rate-row"><label>💶 1 EUR =</label><input type="number" id="rateEUR" step="0.01" min="0" onchange="saveRates()"> ₺</div>
+      <div class="rate-row"><label>💵 1 USD =</label><input type="number" id="rateUSD" aria-label="Dolar kuru / USD rate" step="0.01" min="0" onchange="saveRates()"> ₺</div>
+      <div class="rate-row"><label>💶 1 EUR =</label><input type="number" id="rateEUR" aria-label="Euro kuru / EUR rate" step="0.01" min="0" onchange="saveRates()"> ₺</div>
       <p class="hint" style="margin:8px 0 0">ℹ️ <span data-i18n="fx_note">Varsayılan kurlar yaklaşıktır — lütfen güncel TCMB kurunu girin.</span></p>
     </div>
     <div class="card">
@@ -345,17 +346,17 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:22px 10px 3
         <div class="field-row3">
           <div class="field"><label data-i18n="f_org">Kurum / Okul</label><input id="gzOrg" placeholder="NGO / University / —"></div>
           <div class="field"><label data-i18n="f_city">Şehir / Ülke</label><input id="gzCity" placeholder="Antalya / Türkiye"></div>
-          <div class="field"><label data-i18n="f_ptype">Katılımcı Türü *</label><select id="gzPtype"></select></div>
+          <div class="field"><label data-i18n="f_ptype">Katılımcı Türü *</label><select id="gzPtype" aria-label="Katılım tipi / Participation type"></select></div>
         </div>
         <div class="field-row3">
-          <div class="field"><label data-i18n="f_vdate">Ziyaret Günü *</label><select id="gzVdate"></select></div>
-          <div class="field"><label data-i18n="f_pledge">Bağış Sözü (opsiyonel)</label><input id="gzPledge" type="number" min="0" step="any" placeholder="0"></div>
-          <div class="field"><label data-i18n="f_pcur">Birim</label><select id="gzPcur"><option>TRY</option><option>USD</option><option>EUR</option></select></div>
+          <div class="field"><label data-i18n="f_vdate">Ziyaret Günü *</label><select id="gzVdate" aria-label="Ziyaret tarihi / Visit date"></select></div>
+          <div class="field"><label data-i18n="f_pledge">Bağış Sözü (opsiyonel)</label><input id="gzPledge" aria-label="Taahhüt / Pledge" type="number" min="0" step="any" placeholder="0"></div>
+          <div class="field"><label data-i18n="f_pcur">Birim</label><select id="gzPcur" aria-label="Para birimi / Currency"><option>TRY</option><option>USD</option><option>EUR</option></select></div>
         </div>
-        <div class="field"><label data-i18n="f_pcamp">Söz Verilen Kampanya</label><select id="gzPcamp"></select></div>
+        <div class="field"><label data-i18n="f_pcamp">Söz Verilen Kampanya</label><select id="gzPcamp" aria-label="Kampanya / Campaign"></select></div>
         <div class="field"><label data-i18n="f_interests">İlgilendiğiniz Kampanyalar</label><div class="checks" id="gzInterests"></div></div>
         <div class="field"><label data-i18n="f_note">Not</label><input id="gzNote" placeholder="..."></div>
-        <label class="consent"><input type="checkbox" id="gzConsent"><span data-i18n="f_consent">KVKK kapsamında bilgilerimin Yetim Vakfı tarafından saklanmasını kabul ediyorum. *</span></label>
+        <label class="consent"><input type="checkbox" id="gzConsent" aria-label="Onay / Consent"><span data-i18n="f_consent">KVKK kapsamında bilgilerimin Yetim Vakfı tarafından saklanmasını kabul ediyorum. *</span></label>
         <button class="btn btn-green" onclick="submitReg()" style="width:100%;justify-content:center;padding:13px">🌍 <span data-i18n="f_submit">Kaydı Tamamla</span></button>
       </div>
       <div id="gzConfirm" style="display:none">
@@ -378,9 +379,9 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:22px 10px 3
       <h2>📋 <span data-i18n="gz_list_title">Kayıtlı Ziyaretçiler</span></h2>
       <p class="hint" data-i18n="gz_list_hint">Arama, filtreleme, giriş (check-in) ve bağış sözünü kayda dönüştürme.</p>
       <div class="filters">
-        <input type="text" id="gzSearch" oninput="renderGzTable()" style="flex:1;min-width:160px">
-        <select id="gzFType" onchange="renderGzTable()"></select>
-        <select id="gzFDate" onchange="renderGzTable()"></select>
+        <input type="text" id="gzSearch" aria-label="Ara / Search" oninput="renderGzTable()" style="flex:1;min-width:160px">
+        <select id="gzFType" aria-label="Filtre: tip / Filter: type" onchange="renderGzTable()"></select>
+        <select id="gzFDate" aria-label="Filtre: tarih / Filter: date" onchange="renderGzTable()"></select>
         <button class="btn btn-outline btn-sm" onclick="gzExportCSV()">📥 CSV</button>
       </div>
       <div class="table-wrap">
@@ -412,12 +413,12 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:22px 10px 3
     <div class="field-row">
       <div class="field"><label data-i18n="m_amount">Tutar</label><input id="dAmount" type="number" min="0" step="any" placeholder="1000"></div>
       <div class="field"><label data-i18n="m_currency">Para Birimi</label>
-        <select id="dCurrency"><option>TRY</option><option>USD</option><option>EUR</option></select></div>
+        <select id="dCurrency" aria-label="Para birimi / Currency"><option>TRY</option><option>USD</option><option>EUR</option></select></div>
     </div>
-    <div class="field"><label data-i18n="m_camp">Kampanya</label><select id="dCamp"></select></div>
+    <div class="field"><label data-i18n="m_camp">Kampanya</label><select id="dCamp" aria-label="Kampanya / Campaign"></select></div>
     <div class="field-row">
-      <div class="field"><label data-i18n="m_type">Bağış Türü</label><select id="dType"></select></div>
-      <div class="field"><label data-i18n="m_date">Tarih</label><input id="dDate" type="date"></div>
+      <div class="field"><label data-i18n="m_type">Bağış Türü</label><select id="dType" aria-label="Bağış tipi / Donation type"></select></div>
+      <div class="field"><label data-i18n="m_date">Tarih</label><input id="dDate" aria-label="Tarih / Date" type="date"></div>
     </div>
     <div class="field"><label data-i18n="m_note">Not (opsiyonel)</label><input id="dNote" placeholder="örn. Gazze için"></div>
     <div class="field" style="background:#f0fdfa;border-radius:10px;padding:10px 12px;font-size:13px" id="dPreview"></div>
@@ -438,12 +439,12 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:22px 10px 3
       <div class="field"><label>Campaign Name (EN)</label><input id="cNameEn" placeholder="e.g. Water Well"></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>🎯 Hedef (₺)</label><input id="cGoal" type="number" min="0" step="any"></div>
-      <div class="field"><label>💰 Mevcut (₺) <small style="color:#888">— başlangıç</small></label><input id="cInitial" type="number" min="0" step="any"></div>
+      <div class="field"><label>🎯 Hedef (₺)</label><input id="cGoal" aria-label="Hedef / Goal" type="number" min="0" step="any"></div>
+      <div class="field"><label>💰 Mevcut (₺) <small style="color:#888">— başlangıç</small></label><input id="cInitial" aria-label="Başlangıç / Initial" type="number" min="0" step="any"></div>
     </div>
     <div class="field-row">
       <div class="field"><label>🎨 İkon (emoji)</label><input id="cIcon" maxlength="4" placeholder="💧"></div>
-      <div class="field"><label>🌈 Renk</label><input id="cColor" type="color" value="#0d7377" style="height:42px"></div>
+      <div class="field"><label>🌈 Renk</label><input id="cColor" aria-label="Renk / Color" type="color" value="#0d7377" style="height:42px"></div>
     </div>
     <div class="field"><label>Açıklama / Description</label><input id="cDesc" placeholder="Kısa açıklama..."></div>
     <div class="btn-row">

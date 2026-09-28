@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="تست تعاملی واجد شرایط بودن برای Startup Zone در COP31.">
 <title>بررسی قوانین Startup Zone در COP31 🌍</title>
 <link rel="stylesheet" href="site-theme.css">
 <style>
@@ -156,7 +157,7 @@ function render(){
     div.className='q'+(q.crit?' crit':'')+(v==='yes'?' done-yes':v==='no'?' done-no':v==='unsure'?' done-unsure':'');
     let inner=`<div class="q-head"><div class="q-num">${FA(i+1)}</div><h3>${q.title}${q.crit?' <span style="color:#dc2626;font-size:12px">🔴 حیاتی</span>':''}</h3></div><div class="basis">${q.basis}</div>`;
     if(q.type==='theme'){
-      inner+=`<select onchange="setTheme(this.value)"><option value="">— انتخاب کنید —</option>${THEMES.map(t=>`<option value="yes" ${v==='yes'&&state.q2theme===t?'selected':''}>${t}</option>`).join('')}<option value="unsure" ${v==='unsure'?'selected':''}>نمی‌دانم / مطمئن نیستم</option><option value="no" ${v==='no'?'selected':''}>هیچ‌کدام — راهکار ما اقلیمی نیست</option></select>`;
+      inner+=`<select aria-label="انتخاب کنید" onchange="setTheme(this.value)"><option value="">— انتخاب کنید —</option>${THEMES.map(t=>`<option value="yes" ${v==='yes'&&state.q2theme===t?'selected':''}>${t}</option>`).join('')}<option value="unsure" ${v==='unsure'?'selected':''}>نمی‌دانم / مطمئن نیستم</option><option value="no" ${v==='no'?'selected':''}>هیچ‌کدام — راهکار ما اقلیمی نیست</option></select>`;
     }else{
       inner+=`<div class="ans-btns"><button class="ans ${v==='yes'?'on-yes':''}" onclick="setAns('${q.id}','yes')">✅ بله</button><button class="ans ${v==='no'?'on-no':''}" onclick="setAns('${q.id}','no')">❌ خیر</button><button class="ans ${v==='unsure'?'on-unsure':''}" onclick="setAns('${q.id}','unsure')">❓ نمی‌دانم</button></div>`;
     }
