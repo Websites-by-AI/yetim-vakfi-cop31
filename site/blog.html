@@ -24,6 +24,7 @@
 .post h2{font-size:18px;margin-bottom:6px}
 .post p{font-size:14px;color:#374151}
 .post a.src{display:inline-block;margin-top:10px;color:#0d7377;font-weight:bold;text-decoration:none;font-size:14px}
+.post p,.post h2{max-width:68ch}
 </style>
 </head>
 <body>
@@ -69,6 +70,7 @@ x:["Çocuk odaklı kültür-sanat dergisinin yeni sayısı okurlarla buluştu.",
 var lang=0;
 function render(){
 document.body.className=lang===2?"rtl":"";
+document.documentElement.lang=["tr","en","fa"][lang];
 var u=UI[lang];
 document.getElementById("title").textContent=u.t;
 document.getElementById("subtitle").textContent=u.s;

@@ -81,6 +81,6 @@
 
   var f = document.createElement("footer");
   f.className = "aya-foot";
-  f.innerHTML = "🧸 Yetim Vakfı × COP31<br><a href=\"contact.html\">📞 Contact</a> • <a href=\"https://yetimvakfi.org.tr/en\">🌐 yetimvakfi.org.tr</a> • <a href=\"index.html\">🏠 Home</a>";
+  f.innerHTML = "🧸 Yetim Vakfı × COP31<br><a href=\"contact.html\">📞 Contact</a> • <a href=\"https://yetimvakfi.org.tr/en\" target=\"_blank\" rel=\"noopener\">🌐 yetimvakfi.org.tr</a> • <a href=\"index.html\">🏠 Home</a>";
   document.body.appendChild(f);
 })();

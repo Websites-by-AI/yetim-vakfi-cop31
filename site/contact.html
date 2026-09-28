@@ -60,6 +60,7 @@ var HELP=[["Sağ alttaki 🌙 düğmeye dokunun.","Tap the 🌙 button, bottom-r
 var lang=0;
 function render(){
 document.body.className=lang===2?"rtl":"";
+document.documentElement.lang=["tr","en","fa"][lang];
 var u=UI[lang];
 document.getElementById("title").textContent=u.t;
 document.getElementById("subtitle").textContent=u.s;

@@ -87,6 +87,7 @@ var SU=[
 var lang=0, filter="all";
 function render(){
 document.body.className = lang===2 ? "rtl" : "";
+document.documentElement.lang=["tr","en","fa"][lang];
 var u=UI[lang];
 document.getElementById("title").textContent=u.t;
 document.getElementById("subtitle").textContent=u.s;
