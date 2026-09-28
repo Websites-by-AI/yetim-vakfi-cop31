@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yetim-vakfi-cop31.pages.dev/sitemap.xml
